@@ -2,12 +2,14 @@ import { useState } from "react";
 import React from "react";
 import "./Register.css";
 import { Link, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Regs() {
   const [email, setemail] = useState("");
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
+  const navigate = useNavigate();
 
   const registerChanges = async (e) => {
     e.preventDefault();
@@ -28,7 +30,8 @@ export default function Regs() {
       } else if (res.status === 409) {
         window.alert("Already Register username please login");
       } else {
-        window.alert("Registration Done! Go To login");
+        window.alert("Registration done please login");
+        navigate("/");
       }
     } else {
       alert("Password Not matched!");

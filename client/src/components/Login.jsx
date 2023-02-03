@@ -21,7 +21,7 @@ const Login = () => {
       },
     });
     const data = await res.json();
-    if (res.status != 200) {
+    if (res.status !== 200) {
       window.alert(data.message);
     } 
     else {

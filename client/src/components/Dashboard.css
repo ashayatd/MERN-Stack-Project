@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 450px;
+  }
+  
+  .sidebar {
+    width: 20%;
+    background-color: lightgray;
+    padding: 20px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+  
+  .task-container {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 216px;
+  }
+  
+  .ongoing-tasks{
+    width: 45%;
+    background-color: lightgray;
+    margin-right: 65px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+  }
+  .completed-tasks {
+    width: 45%;
+    background-color: lightgray;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-right: 65px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .UsersData{
+    display: flex;
+    flex-direction: row;
+  }
+  .List{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 50px;
+  }
+  .ListDivision{
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+  }
+  .TaskCompleted{
+    text-decoration: line-through;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+  }
+  
+  .TickMark{
+    padding-top: 13px;
+  }
+  .InputAdd{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .TaskOngoing{
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .TaskInput{
+    width: 45%;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    height:  26px;
+    margin-top: 40px;
+    border-radius: 10px;
+  }
+  .AddTaskButton{
+    width: 32%;
+    font-size: 16px;
+    height: 30px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+  }
+  .ButtonDiv{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    padding-right: 63px;
+  }
+  .Button1{
+    width: 13%;
+    background-color: red;
+  }
+  .Button{
+    width: 13%;
+  }
+
+  
