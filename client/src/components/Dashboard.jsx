@@ -41,9 +41,9 @@ function Dash() {
     }
   };
 
-  // useEffect(() => {
-  //   calldashboardpage();
-  // });
+  useEffect(() => {
+    calldashboardpage();
+  });
 
   const dataTransfer = (key) => {
     const Temp = Data.filter((elem, ind) => {

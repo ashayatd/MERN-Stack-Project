@@ -8,6 +8,5 @@ routes.post("/login", authenticate, async(req, res)=>{
     res.send(req.rootUser);
     const data = await res.json();
     });
-    
 
 module.exports = routes;
