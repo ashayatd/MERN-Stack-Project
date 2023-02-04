@@ -8,13 +8,13 @@ const connection = require("./helper/connection");
 const userRoutes = require("../Server/Routers/user-router");
 const loginRoute = require("../Server/Routers/login-router");
 const dashboard = require("../Server/Routers/dashboard-route");
-routes.use(express.json());
+app.use(express.json());
 const PORT = process.env.PORT;
 
 connection();
 
-routes.use('/user',userRoutes);
-routes.use('/loguser',loginRoute);
+app.use('/user',userRoutes);
+app.use('/loguser',loginRoute);
 
 routes.get('/dashboard', dashboard);
 

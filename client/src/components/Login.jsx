@@ -20,7 +20,9 @@ const Login = () => {
         "Content-Type": "application/json",
       },
     });
+    
     const data = await res.json();
+    console.log("hit the BE");
     if (res.status !== 200) {
       window.alert(data.message);
     } 

@@ -4,8 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dash() {
-  const [Data, setData] = useState([" Task 1", " Task 2", " Task 3", ]);
-  const [Users, setUsers] = useState(["Name1", "Name2", "Name3", "Name4", "Name5"]);
+  const [Data, setData] = useState([" Task 1", " Task 2", " Task 3"]);
+  const [Users, setUsers] = useState([
+    "Name1",
+    "Name2",
+    "Name3",
+    "Name4",
+    "Name5",
+  ]);
   const [Data2, setData2] = useState([" abc", " def", " ghi"]);
   const [Input, setInput] = useState("");
 
@@ -38,32 +44,28 @@ function Dash() {
   // useEffect(() => {
   //   calldashboardpage();
   // });
- 
 
-const dataTransfer = (key)=>{
-  const Temp = Data.filter((elem, ind)=>{
-    return ind === key
-  })
-  setData2([...Data2, Temp[0]]);
-  const Temp1 = Data.filter((elem, ind)=>{
-    return ind != key
-  })
-  setData(Temp1);
-}
+  const dataTransfer = (key) => {
+    const Temp = Data.filter((elem, ind) => {
+      return ind === key;
+    });
+    setData2([...Data2, Temp[0]]);
+    const Temp1 = Data.filter((elem, ind) => {
+      return ind != key;
+    });
+    setData(Temp1);
+  };
 
-
-const reverseTransfer = (key)=>{
-  const Temp5 = Data2.filter((elem, ind)=>{
-    return ind === key
-  })
-  setData([...Data, Temp5]);
-  const Temp3 = Data2.filter((elem, ind)=>{
-    return ind != key
-  })
-  setData2(Temp3);
-}
-
- 
+  const reverseTransfer = (key) => {
+    const Temp5 = Data2.filter((elem, ind) => {
+      return ind === key;
+    });
+    setData([...Data, Temp5]);
+    const Temp3 = Data2.filter((elem, ind) => {
+      return ind != key;
+    });
+    setData2(Temp3);
+  };
 
   return (
     <div>
@@ -100,66 +102,87 @@ const reverseTransfer = (key)=>{
       <Outlet />
 
       <>
-      <h2>Hello</h2>
+        <h2>Hello</h2>
         <div className="container">
           <div className="sidebar">
             <h2>Users</h2>
 
-
-            {
-              Users.map((elem, ing)=>{
-                  return(
-                    <ul className="UsersNamesList">
-                      <li key={ing} className="UserName">{elem}</li>
-                    </ul>
-                  )
-                }
-              )
-            }
-
+            {Users.map((elem, ing) => {
+              return (
+                <ul className="UsersNamesList">
+                  <li key={ing} className="UserName">
+                    {elem}
+                  </li>
+                </ul>
+              );
+            })}
           </div>
           <div className="task-container">
             <div className="ongoing-tasks">
-
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
 
-              {
-                Data.map((name,key) =>{
-                  return(
-                    <ul className="List">
-                      <li className="TaskOngoing" key={key} onClick={()=>{dataTransfer(key)}}>☐{name} </li>
-                    </ul>
-                  )}
-                  )
-              }
+              {Data.map((name, key) => {
+                return (
+                  <ul className="List">
+                    <li
+                      className="TaskOngoing"
+                      key={key}
+                      onClick={() => {
+                        dataTransfer(key);
+                      }}
+                    >
+                      ☐{name}{" "}
+                    </li>
+                  </ul>
+                );
+              })}
 
               <div className="InputAdd">
-              <input className="TaskInput" value={Input}
-              onChange={(e)=>{setInput(e.target.value)}} />
-              <button className="AddTaskButton" onClick={()=>{setData([...Data, Input])}}>Add Task + </button>
+                <input
+                  className="TaskInput"
+                  value={Input}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                  }}
+                />
+                <button
+                  className="AddTaskButton"
+                  onClick={() => {
+                    setData([...Data, Input]);
+                    setInput("");
+                  }}
+                >
+                  Add Task +{" "}
+                </button>
               </div>
-
             </div>
 
             <div className="completed-tasks">
-
               <h2 className="TaskCompletedHeading">Completed Tasks</h2>
 
-            {
-              Data2.map((elem, key)=>{
-                return(
+              {Data2.map((elem, key) => {
+                return (
                   <ul className="List">
-                  <div className="ListDivision" key={key}  onClick={()=>{reverseTransfer(key)}}>
-                      <div className="TickMark">☑️</div> <li className="TaskCompleted">{elem}</li>
-                  </div>
+                    <div
+                      className="ListDivision"
+                      key={key}
+                      onClick={() => {
+                        reverseTransfer(key);
+                      }}
+                    >
+                      <div className="TickMark">☑️</div>{" "}
+                      <li className="TaskCompleted">{elem}</li>
+                    </div>
                   </ul>
-                )
-              })
-            }
+                );
+              })}
             </div>
           </div>
         </div>
-        <div className="ButtonDiv"><button className="Button1">Reload</button><button className="Button">Save</button></div>
+        <div className="ButtonDiv">
+          <button className="Button1">Reload</button>
+          <button className="Button">Save</button>
+        </div>
       </>
     </div>
   );

@@ -7,7 +7,15 @@ const registerSchema = mongoose.Schema({
     password: {type:String, default:null},
     tokens: [{
         token: String
-    }]
+    }],
+    tasks: [
+        {
+            assinged: String,
+        },
+        {
+            completed: String
+        }
+    ]
 })
 
 // Generate Auth Token
@@ -18,8 +26,8 @@ registerSchema.methods.generateAuthToken = async function(){
         await this.save();
         console.log(token);
         return token;
-        
     }
+    
     catch(err){
         console.log(err);
     }

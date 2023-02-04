@@ -7,9 +7,11 @@ const login = async (req, res)=>{
     try{
         const {Username, Password} = req.body.data;
         console.log(JSON.stringify(req.body));
+
         if(!Username || !Password){
             return res.status(409).json({message:"Please Fill the Data"})
         }
+        
         const username = Username;
         const userLogin = await user.findOne({username});
         console.log(userLogin);
@@ -26,6 +28,7 @@ const login = async (req, res)=>{
         console.log(token);
         
         if(!isMatch){
+            console.log("Login failed");
             res.status(409).json({message:"Invalid Credentials"});
         }
         else{

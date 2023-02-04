@@ -13,6 +13,7 @@ export default function Regs() {
 
   const registerChanges = async (e) => {
     e.preventDefault();
+
     if (cpassword === password) {
       console.log(email, password, username);
       const res = await fetch("/user/register", {
@@ -57,7 +58,6 @@ export default function Regs() {
 
     </ul>
   </nav>
-
   <Outlet />
 
   <div className="register-container">
