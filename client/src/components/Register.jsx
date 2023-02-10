@@ -52,10 +52,6 @@ export default function Regs() {
       <li><Link Link to="/about" className="Link">
       About
     </Link></li>
-      <li><Link Link to="/register" className="Link">
-      Register
-    </Link></li>
-
     </ul>
   </nav>
   <Outlet />

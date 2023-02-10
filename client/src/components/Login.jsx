@@ -1,12 +1,18 @@
 import { React } from "react";
-import { useState } from "react";
+import { useState} from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Login.css";
+
+
 
 const Login = () => {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // useEffect(()=>{
+  //   loginUser();
+  // })
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -22,12 +28,15 @@ const Login = () => {
     });
     
     const data = await res.json();
+    
     console.log("hit the BE");
+
     if (res.status !== 200) {
       window.alert(data.message);
     } 
     else {
-      navigate.push("./dashboard");
+      console.log(data.message);
+      navigate("/dashboard/dashboard");
     }
   };
 
@@ -36,9 +45,6 @@ const Login = () => {
     <div>
     <nav id="navbar">
       <ul>
-        <li><Link Link to="/" className="Link">
-        Home
-      </Link></li>
         <li><Link Link to="/about" className="Link">
         About
       </Link></li>

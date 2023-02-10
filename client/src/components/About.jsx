@@ -8,7 +8,7 @@ const Home2 = () => {
        <nav id="navbar">
     <ul>
       <li><Link Link to="/" className="Link">
-      Home
+      Login
     </Link></li>
       <li><Link Link to="/about" className="Link">
       About

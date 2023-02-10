@@ -3,19 +3,11 @@ const jwt = require(`jsonwebtoken`);
 
 const registerSchema = mongoose.Schema({
     email: {type:String, default:null},
-    username: {type:String, require:true, unique: true, default:null},
+    username: {type:String, require:true, unique: true},
     password: {type:String, default:null},
     tokens: [{
         token: String
     }],
-    tasks: [
-        {
-            assinged: String,
-        },
-        {
-            completed: String
-        }
-    ]
 })
 
 // Generate Auth Token
@@ -24,7 +16,7 @@ registerSchema.methods.generateAuthToken = async function(){
         let token = jwt.sign({_id:this._id}, process.env.SECRET_KEY);
         this.tokens = this.tokens.concat({token:token});
         await this.save();
-        console.log(token);
+        // console.log(token);
         return token;
     }
     

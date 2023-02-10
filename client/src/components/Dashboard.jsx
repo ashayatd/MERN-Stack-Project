@@ -4,45 +4,81 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dash() {
+
   const [Data, setData] = useState([" Task 1", " Task 2", " Task 3"]);
-  const [Users, setUsers] = useState([
+  const [Users] = useState([
     "Name1",
     "Name2",
     "Name3",
     "Name4",
     "Name5",
   ]);
+
   const [Data2, setData2] = useState([" abc", " def", " ghi"]);
   const [Input, setInput] = useState("");
 
   const navigate = useNavigate();
 
   const calldashboardpage = async () => {
+
     try {
-      const res = await fetch("/dashboard", {
+ 
+      const res = await fetch("/dashboard/dashboard", {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-type": "Application/json",
+          "Content-type": "application/json",
         },
         credentials: "include",
       });
-      const data = await res.json();
-      console.log(data);
-      if (!res.status === 200) {
+
+      // const data = await res.json();
+      // console.log(data);
+
+      if (res.status !== 200) {
         const error = new Error(res.error);
+        navigate(`/`);
+        window.alert("Please Login Again...");
         throw error;
-      } else {
       }
-    } catch (error) {
+    }
+     catch (error) {
       console.log(error);
       navigate(`/`);
-      window.alert("Please Login Again...");
+      window.alert("Some Error Occured! Please Login Again...");
     }
   };
 
-  useEffect(() => {
+  const DeleteCookie = async ()=>{
+    try{
+      const response = await fetch("/logout/logout",{
+        method:"GET",
+        header:{
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials:"include",
+      });
+      if(response.status === 200){
+        console.log(response.status);
+        navigate(`/`);
+      }
+      else{
+        // console.log("Didnt match nasujfn")
+      }
+    }
+    catch(error){
+      console.log(error.message);
+    }
+  }
+
+  useEffect
+  (() => {
     calldashboardpage();
+  });
+
+  useEffect(()=>{
+    DeleteCookie();
   });
 
   const dataTransfer = (key) => {
@@ -51,7 +87,7 @@ function Dash() {
     });
     setData2([...Data2, Temp[0]]);
     const Temp1 = Data.filter((elem, ind) => {
-      return ind != key;
+      return ind !== key;
     });
     setData(Temp1);
   };
@@ -62,7 +98,7 @@ function Dash() {
     });
     setData([...Data, Temp5]);
     const Temp3 = Data2.filter((elem, ind) => {
-      return ind != key;
+      return ind !== key;
     });
     setData2(Temp3);
   };
@@ -72,27 +108,12 @@ function Dash() {
       <nav id="navbar">
         <ul>
           <li>
-            <Link Link to="/" className="Link">
-              Home
-            </Link>
-          </li>
-          <li>
             <Link Link to="/about" className="Link">
               About
             </Link>
           </li>
           <li>
-            <Link Link to="/register" className="Link">
-              Register
-            </Link>
-          </li>
-          <li>
-            <Link Link to="/dashboard" className="Link">
-              Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link Link to="/" className="Link">
+            <Link Link to="/" className="Link" onClick={DeleteCookie}>
               Logout
             </Link>
           </li>
