@@ -10,8 +10,8 @@ const user = require("../models/registerModel");
 // });
 
 routes.get("/dashboard", authenticate, async (req, res) => {
-  const data = user.find();
-  res.send({data});
+  //const data = user.find();
+  res.end();
   // console.log(data);
   // res.send(data);
 

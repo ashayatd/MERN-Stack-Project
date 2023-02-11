@@ -32,8 +32,8 @@ function Dash() {
         window.alert("Please Login Again...");
         throw error;
       }
-      res = res.json();
-      setUsers(res);
+      //res = res.json();
+      //setUsers(res);
     }
 
      catch (error) {
