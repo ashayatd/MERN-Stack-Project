@@ -6,7 +6,7 @@ const authenticate = async(req, res, next)=>{
         const token = req.cookies.jwt;
         // console.dir(`Token From Cookies: ${JSON.stringify(token)}`);
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
-        const rootuser = await user.findOne({id:verifyToken._id, "tokens.token":token});
+        const rootuser = await user.findOne({id:verifyToken._id, "token":token});
         
         if(!rootuser){throw new Error(`User Not Found! Go to Register`)}
         console.log("Token Matched!!");

@@ -5,18 +5,15 @@ const userSchema = mongoose.Schema({
     email: {type:String, default:null},
     username: {type:String, require:true, unique: true},
     password: {type:String, default:null},
-    tokens: [{
-        token: String
-    }],
+    token: String,
 })
 
 // Generate Auth Token
 userSchema.methods.generateAuthToken = async function(){
     try{
         let token = jwt.sign({_id:this._id}, process.env.SECRET_KEY);
-        this.tokens = this.tokens.concat({token:token});
+        this.token = token;
         await this.save();
-        // console.log(token);
         return token;
     }
     
