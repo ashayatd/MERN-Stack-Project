@@ -1,4 +1,4 @@
-const task = require("../../models/Tasks");
+const task = require("../../models/tasks");
 const jwt = require("jsonwebtoken");
 
 async function addTask(req, res) {
