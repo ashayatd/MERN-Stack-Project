@@ -45,7 +45,7 @@ function Dash() {
 
   const DeleteCookie = async ()=>{
     try{
-      const response = await fetch("/logout/logout",{
+      const response = await fetch("/logout",{
         method:"GET",
         header:{
           Accept: "application/json",
@@ -73,7 +73,7 @@ function Dash() {
   });
 
   useEffect(()=>{
-    DeleteCookie();
+    //DeleteCookie();
   });
 
   const dataTransfer = (key) => {
