@@ -2,7 +2,7 @@ const express = require("express");
 const authenticate = require("../middleware/authenticate");
 const routes = express.Router();
 const app = express();
-const user = require("../models/registerModel");
+const user = require("../models/userModel");
 
 // routes.post("/login", authenticate, async (req, res) => {
 //   console.log("console of dashboard request");
