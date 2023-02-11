@@ -1,22 +1,14 @@
 const mongoose = require("mongoose");
 
 const tasksSchema = mongoose.Schema({
-    tasks: [
-        {
-            assinged: String,
-        },
-        {
-            completed: String
-        }
-    ],
-    userCreated:{
-        type : String,
-        required: true,
+    task: {
+        title: { type: String, require: true },
+        description: { type: String, require: false },
     },
-    userAssigned: {
-        type : String,
+    status: { type: Boolean, default: false },
+    userCreated: {
+        type: String,
         required: true,
-        unique: true
     }
 })
 

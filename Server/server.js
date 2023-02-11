@@ -9,8 +9,7 @@ require("dotenv").config();
 const connection = require("./helper/connection");
 const userRoutes = require("../Server/Routers/user-router");
 const loginRoute = require("../Server/Routers/login-router");
-const dashboard = require("../Server/Routers/dashboard-route");
-
+const taskRoutes = require("./Routers/task-router");
 app.use(express.json());
 
 const PORT = process.env.PORT;
@@ -19,7 +18,7 @@ connection();
 
 app.use('/user',userRoutes);
 app.use('/loguser',loginRoute);
-app.use('/dashboard', dashboard);
+app.use('/api',taskRoutes);
 app.get('/logout', (req,res)=>{
     res.clearCookie("jwt");
     res.end();
