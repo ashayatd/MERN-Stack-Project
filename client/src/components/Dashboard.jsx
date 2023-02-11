@@ -17,8 +17,8 @@ function Dash() {
 
     try {
 
-      const res = await fetch("/dashboard/dashboard", {
-        method: "GET",
+      const res = await fetch("/user/authenticate", {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
@@ -26,7 +26,7 @@ function Dash() {
         credentials: "include",
       });
 
-      if (res.status !== 200) {
+      if (res.status !== 201) {
         const error = new Error(res.error);
         navigate(`/`);
         window.alert("Please Login Again...");
