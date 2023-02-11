@@ -6,13 +6,7 @@ import "./Dashboard.css";
 function Dash() {
 
   const [Data, setData] = useState([" Task 1", " Task 2", " Task 3"]);
-  const [Users] = useState([
-    "Name1",
-    "Name2",
-    "Name3",
-    "Name4",
-    "Name5",
-  ]);
+  const [Users, setUsers] = useState(["Name 1","name 2", "name 3" ]);
 
   const [Data2, setData2] = useState([" abc", " def", " ghi"]);
   const [Input, setInput] = useState("");
@@ -22,7 +16,7 @@ function Dash() {
   const calldashboardpage = async () => {
 
     try {
- 
+
       const res = await fetch("/dashboard/dashboard", {
         method: "GET",
         headers: {
@@ -32,16 +26,16 @@ function Dash() {
         credentials: "include",
       });
 
-      // const data = await res.json();
-      // console.log(data);
-
       if (res.status !== 200) {
         const error = new Error(res.error);
         navigate(`/`);
         window.alert("Please Login Again...");
         throw error;
       }
+      res = res.json();
+      setUsers(res);
     }
+
      catch (error) {
       console.log(error);
       navigate(`/`);
@@ -59,6 +53,7 @@ function Dash() {
         },
         credentials:"include",
       });
+
       if(response.status === 200){
         console.log(response.status);
         navigate(`/`);
@@ -130,13 +125,13 @@ function Dash() {
 
             {Users.map((elem, ing) => {
               return (
-                <ul className="UsersNamesList">
+                // <ul className="UsersNamesList"></ul>
                   <li key={ing} className="UserName">
                     {elem}
                   </li>
-                </ul>
               );
             })}
+
           </div>
           <div className="task-container">
             <div className="ongoing-tasks">
@@ -144,7 +139,7 @@ function Dash() {
 
               {Data.map((name, key) => {
                 return (
-                  <ul className="List">
+                  // <ul className="List">
                     <li
                       className="TaskOngoing"
                       key={key}
@@ -154,7 +149,7 @@ function Dash() {
                     >
                       ☐{name}{" "}
                     </li>
-                  </ul>
+                  // </ul>
                 );
               })}
 
@@ -183,7 +178,7 @@ function Dash() {
 
               {Data2.map((elem, key) => {
                 return (
-                  <ul className="List">
+                  // <ul className="List">
                     <div
                       className="ListDivision"
                       key={key}
@@ -194,7 +189,7 @@ function Dash() {
                       <div className="TickMark">☑️</div>{" "}
                       <li className="TaskCompleted">{elem}</li>
                     </div>
-                  </ul>
+                  // </ul>
                 );
               })}
             </div>

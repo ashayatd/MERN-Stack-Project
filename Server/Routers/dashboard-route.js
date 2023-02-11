@@ -2,7 +2,7 @@ const express = require("express");
 const authenticate = require("../middleware/authenticate");
 const routes = express.Router();
 const app = express();
-const user = require("../user/login-user"); 
+const user = require("../models/registerModel");
 
 // routes.post("/login", authenticate, async (req, res) => {
 //   console.log("console of dashboard request");
@@ -10,9 +10,11 @@ const user = require("../user/login-user");
 // });
 
 routes.get("/dashboard", authenticate, async (req, res) => {
-  console.log(req.cookies);
   const data = user.find();
-  res.json(JSON.stringify({ msg: "Data" }));
+  res.send({data});
+  // console.log(data);
+  // res.send(data);
+
 });
 
 module.exports = routes;

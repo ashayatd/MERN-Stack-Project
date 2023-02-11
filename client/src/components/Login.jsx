@@ -28,7 +28,7 @@ const Login = () => {
     });
     
     const data = await res.json();
-    
+
     console.log("hit the BE");
 
     if (res.status !== 200) {
