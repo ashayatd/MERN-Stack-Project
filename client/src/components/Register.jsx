@@ -11,7 +11,7 @@ export default function Regs() {
   const [cpassword, setcpassword] = useState("");
   const navigate = useNavigate();
 
-  const registerChanges = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
 
     if (cpassword === password) {
@@ -107,7 +107,7 @@ export default function Regs() {
           <br />
         </div>
 
-        <button onClick={registerChanges} className="register-button">
+        <button onClick={registerUser} className="register-button">
           Register
         </button>
       </form>

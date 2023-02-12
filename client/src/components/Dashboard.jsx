@@ -99,12 +99,12 @@ function Dash() {
   const AddTasks = async ()=>{
     setOngoingTasks([...OngoingTasks, Input]);
     setInput("");
-    
+
     try{
       const AddTasksResp = await fetch("/Api/addTask",{
         method:"POST",
         body: JSON.stringify({
-          data: { Input, Description },
+          data: { title:Input, Description:"", status:false },
         }),
         header:{
           Accept: "application/json",
