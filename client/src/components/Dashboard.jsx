@@ -5,10 +5,11 @@ import "./Dashboard.css";
 
 function Dash() {
 
-  const [Data, setData] = useState([" Task 1", " Task 2", " Task 3"]);
-  const [Users, setUsers] = useState(["Name 1","name 2", "name 3" ]);
+  const [OngoingTasks, setOngoingTasks] = useState([" Task 1", " Task 2", " Task 3"]);
+  const [Users, setUsers] = useState(["Name 1", "name 2", "name 3" ]);
+  const [Description, setDescription] = useState("");
 
-  const [Data2, setData2] = useState([" abc", " def", " ghi"]);
+  const [CompletedTasks, setCompletedTasks] = useState([" abc", " def", " ghi"]);
   const [Input, setInput] = useState("");
 
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ function Dash() {
   const calldashboardpage = async () => {
 
     try {
-
       const res = await fetch("/user/authenticate", {
         method: "POST",
         headers: {
@@ -29,7 +29,6 @@ function Dash() {
       if (res.status !== 201) {
         const error = new Error(res.error);
         navigate(`/`);
-        window.alert("Please Login Again...");
         throw error;
       }
       //res = res.json();
@@ -39,7 +38,6 @@ function Dash() {
      catch (error) {
       console.log(error);
       navigate(`/`);
-      window.alert("Some Error Occured! Please Login Again...");
     }
   };
 
@@ -77,26 +75,52 @@ function Dash() {
   });
 
   const dataTransfer = (key) => {
-    const Temp = Data.filter((elem, ind) => {
+    const Temp = OngoingTasks.filter((elem, ind) => {
       return ind === key;
     });
-    setData2([...Data2, Temp[0]]);
-    const Temp1 = Data.filter((elem, ind) => {
+    setCompletedTasks([...CompletedTasks, Temp[0]]);
+    const Temp1 = OngoingTasks.filter((elem, ind) => {
       return ind !== key;
     });
-    setData(Temp1);
+    setOngoingTasks(Temp1);
   };
 
   const reverseTransfer = (key) => {
-    const Temp5 = Data2.filter((elem, ind) => {
+    const Temp5 = CompletedTasks.filter((elem, ind) => {
       return ind === key;
     });
-    setData([...Data, Temp5]);
-    const Temp3 = Data2.filter((elem, ind) => {
+    setOngoingTasks([...OngoingTasks, Temp5]);
+    const Temp3 = CompletedTasks.filter((elem, ind) => {
       return ind !== key;
     });
-    setData2(Temp3);
+    setCompletedTasks(Temp3);
   };
+
+  const AddTasks = async ()=>{
+    setOngoingTasks([...OngoingTasks, Input]);
+    setInput("");
+    
+    try{
+      const AddTasksResp = await fetch("/Api/addTask",{
+        method:"POST",
+        body: JSON.stringify({
+          data: { Input, Description },
+        }),
+        header:{
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials:"include",
+      });
+
+      if(AddTasksResp.status !== 201){
+        window.alert(AddTasksResp.message);
+      }
+    }
+    catch(error){
+      console.log(error.message);
+    }
+  }
 
   return (
     <div>
@@ -137,7 +161,7 @@ function Dash() {
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
 
-              {Data.map((name, key) => {
+              {OngoingTasks.map((name, key) => {
                 return (
                   // <ul className="List">
                     <li
@@ -163,10 +187,7 @@ function Dash() {
                 />
                 <button
                   className="AddTaskButton"
-                  onClick={() => {
-                    setData([...Data, Input]);
-                    setInput("");
-                  }}
+                  onClick={AddTasks}
                 >
                   Add Task +{" "}
                 </button>
@@ -176,7 +197,7 @@ function Dash() {
             <div className="completed-tasks">
               <h2 className="TaskCompletedHeading">Completed Tasks</h2>
 
-              {Data2.map((elem, key) => {
+              {CompletedTasks.map((elem, key) => {
                 return (
                   // <ul className="List">
                     <div

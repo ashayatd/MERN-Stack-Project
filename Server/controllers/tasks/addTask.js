@@ -7,7 +7,7 @@ async function addTask(req, res) {
         let { title, description, status } = req.body; // input from user
         if (!(title)) {
             res.status(200);
-            return res.send(JSON.stringify({ message: "all input required" }));
+            return res.send(JSON.stringify({ message: "Please Fill The Box!" }));
         }
         const taskCreate = await task.create({
             task: {
