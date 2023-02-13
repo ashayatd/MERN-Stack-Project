@@ -5,7 +5,7 @@ const tasksSchema = mongoose.Schema({
             title: { type: String, require: true },
             description: { type: String, require: false },
         },
-    status: { type: Boolean, default: false
+    status: { type: Boolean
         },
     userCreated: {
         type: String,
