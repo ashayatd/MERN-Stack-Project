@@ -3,7 +3,6 @@ const task = require("../../models/tasks");
 const deleteTask = async (req, res) => {
   try {
     let { ide } = req.body;
-    console.log(ide);
     const result = await task.deleteOne( { "_id" : ide});
     return res.status(201);
   } 

@@ -91,15 +91,24 @@ function Dash() {
     }
   };
 
-  const dataTransfer = (data, key) => {
-    const Temp = OngoingTasks.filter((elem, ind) => {
-      return elem._id === key;
-    });
-    // setCompletedTasks([...CompletedTasks, Temp[0]]);
-    const Temp1 = OngoingTasks.filter((elem, ind) => {
-      return elem._id !== key;
-    });
-     // setOngoingTasks(Temp1);
+  const dataTransfer = async (key) => {
+    try {
+      const res = await fetch("/api/completeTask", {
+        method: "POST",
+        body: JSON.stringify({ide: key}),
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (res.status !== 201) {
+        window.alert(`Error in Transfering Data: `, res.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const reverseTransfer = (key) => {
@@ -114,9 +123,6 @@ function Dash() {
   };
 
   const deleteCompletedTasks = async (key)=>{
-     // copy Paste
-
-    console.log(key);
 
     try {
       const res = await fetch("/api/deleteTask", {
@@ -135,27 +141,6 @@ function Dash() {
     } catch (error) {
       console.log(error);
     }
-    
-
-    // try {
-    //   const response = await fetch("/api/deleteTask", {
-    //     method: "POST",
-    //     body: JSON.stringify({id: key}),
-    //     header: {
-    //       "Content-type": "application/json",
-    //     },
-    //     credentials: "include",
-    //   });
-
-    //   if (response.status !== 201) {
-    //     console.log(response.status);
-    //   } else {
-    //     window.alert("Deleted Data!");
-    //   }
-    // }
-    //  catch (error) {
-    //   console.log(error.message);
-    // }
   }
 
 
@@ -243,7 +228,7 @@ function Dash() {
                       className="TaskOngoing"
                       key={name._id}
                       onClick={() => {
-                        dataTransfer(key);
+                        dataTransfer(name._id);
                       }}
                     >
                       ☐ {name.task.title}{" "}
