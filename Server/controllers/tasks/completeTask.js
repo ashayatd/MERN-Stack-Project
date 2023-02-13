@@ -9,7 +9,7 @@ const completeTask = async (req, res) => {
         if(error) throw Error;
     });
     if(update){
-        console.log("data Updates");
+        console.log("data Transfered");
     }
     // update
     return res.status(201);

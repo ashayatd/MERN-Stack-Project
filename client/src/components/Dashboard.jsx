@@ -111,15 +111,25 @@ function Dash() {
     }
   };
 
-  const reverseTransfer = (key) => {
-    const Temp5 = CompletedTasks.filter((elem, ind) => {
-      return elem._id === key;
-    });
-    // setOngoingTasks([...OngoingTasks, Temp5]);
-    const Temp3 = CompletedTasks.filter((elem, ind) => {
-      return elem._id !== key;
-    });
-    // setCompletedTasks(Temp3);
+  const reverseTransfer = async (key) => {
+    
+    try {
+      const res = await fetch("/api/redoTask", {
+        method: "POST",
+        body: JSON.stringify({ide: key}),
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (res.status !== 201) {
+        window.alert(`status:`, res.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteCompletedTasks = async (key)=>{
@@ -180,7 +190,7 @@ function Dash() {
   useEffect(() => {
     calldashboardpage();
     fetchTasks();
-  },[deleteCompletedTasks]);
+  },[deleteCompletedTasks, dataTransfer]);
 
 
   return (
@@ -261,7 +271,7 @@ function Dash() {
                       className="ListDivision"
                       key={name._id}
                       onClick={() => {
-                        reverseTransfer(key);
+                        reverseTransfer(name._id);
                       }}
                     >
                       <div className="TickMark">

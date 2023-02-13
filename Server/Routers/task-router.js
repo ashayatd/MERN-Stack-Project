@@ -6,12 +6,13 @@ const addTask = require("../controllers/tasks/addTask");
 const fetchTask = require("../controllers/tasks/fetchTask");
 const deleteTask = require("../controllers/tasks/deleteTask");
 const completeTask = require("../controllers/tasks/completeTask");
+const redoTask = require("../controllers/tasks/redoTask");
 
 routes.post("/addTask",authenticate, addTask );
 routes.get("/fetchTask",authenticate, fetchTask );
 routes.post("/deleteTask", deleteTask );
 // routes.post("/updateTask",authenticate );
 routes.post("/completeTask", completeTask );
-// routes.post("/redoTask",authenticate );
+routes.post("/redoTask", redoTask);
 
 module.exports = routes;
