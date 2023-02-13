@@ -9,12 +9,12 @@ const authenticate = async(req, res, next)=>{
         const rootuser = await user.findOne({id:verifyToken._id, "token":token});
         
         if(!rootuser){throw new Error(`User Not Found! Go to Register`)}
-        console.log("Token Matched!!");
         req.token = token;
         req.rootUser = rootuser;
         req.userID = rootuser._id;
         
         next();
+        
     } 
     catch (error) {
         res.status(402).json(JSON.stringify({msg:"Unauthorised user!"}));

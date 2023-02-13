@@ -1,12 +1,13 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dash() {
 
-  const [OngoingTasks, setOngoingTasks] = useState([" Task 1", " Task 2", " Task 3"]);
-  const [Users, setUsers] = useState(["Name 1", "name 2", "name 3" ]);
+  const [OngoingTasks, setOngoingTasks] = useState([]);
+
+  const [Users, setUsers] = useState(["Name 1", "name 2", "name 3"]);
   const [Description, setDescription] = useState("");
 
   const [CompletedTasks, setCompletedTasks] = useState([" abc", " def", " ghi"]);
@@ -41,6 +42,33 @@ function Dash() {
     }
   };
 
+  const fetchTasks = async ()=>{
+    try {
+      const res = await fetch("/api/fetchTask", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (res.status !== 201) {
+        const error = new Error(res.error);
+        throw error;
+      }
+      const data = await res.json();
+      const Temp = data.filter((elem, ind) => {
+        return elem.status === false;
+      });
+      setOngoingTasks(Temp);
+    }
+
+     catch (error) {
+      console.log(error);
+    }
+  }
+
   const DeleteCookie = async ()=>{
     try{
       const response = await fetch("/logout",{
@@ -68,53 +96,63 @@ function Dash() {
   useEffect
   (() => {
     calldashboardpage();
+    fetchTasks();
   });
+  
+
 
   useEffect(()=>{
     //DeleteCookie();
   });
 
-  const dataTransfer = (key) => {
-    const Temp = OngoingTasks.filter((elem, ind) => {
-      return ind === key;
+  const dataTransfer = (data, key) => {
+    const Temp = OngoingTasks.filter((elem,ind) => {
+      return elem._id === key;
     });
     setCompletedTasks([...CompletedTasks, Temp[0]]);
     const Temp1 = OngoingTasks.filter((elem, ind) => {
-      return ind !== key;
+      return elem._id !== key;
     });
     setOngoingTasks(Temp1);
   };
 
   const reverseTransfer = (key) => {
     const Temp5 = CompletedTasks.filter((elem, ind) => {
-      return ind === key;
+      return elem._id === key;
     });
     setOngoingTasks([...OngoingTasks, Temp5]);
     const Temp3 = CompletedTasks.filter((elem, ind) => {
-      return ind !== key;
+      return elem._id !== key;
     });
     setCompletedTasks(Temp3);
   };
 
   const AddTasks = async ()=>{
-    setOngoingTasks([...OngoingTasks, Input]);
+    const taskInput = {
+      task : {
+        title : Input,
+        description : "",
+      },
+      status : false,
+    }
+    setOngoingTasks([...OngoingTasks, taskInput]);
     setInput("");
 
     try{
-      const AddTasksResp = await fetch("/Api/addTask",{
-        method:"POST",
+
+      const AddTasksResp = await fetch("/api/addTask", {
+        method: "POST",
         body: JSON.stringify({
-          data: { title:Input, Description:"", status:false },
+          title:Input, Description:"", status:false
         }),
-        header:{
-          Accept: "application/json",
-          "Content-type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
         },
-        credentials:"include",
+        credentials: "include"
       });
 
       if(AddTasksResp.status !== 201){
-        window.alert(AddTasksResp.message);
+        window.alert(`Status:`+ AddTasksResp.status );
       }
     }
     catch(error){
@@ -161,21 +199,21 @@ function Dash() {
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
 
-              {OngoingTasks.map((name, key) => {
+              <ul className="List">{OngoingTasks.map((name, key) => {
                 return (
-                  // <ul className="List">
+
                     <li
                       className="TaskOngoing"
-                      key={key}
+                      key={name._id}
                       onClick={() => {
                         dataTransfer(key);
                       }}
                     >
-                      ☐{name}{" "}
+                      ☐ { name.task.title}{" "}
                     </li>
-                  // </ul>
+
                 );
-              })}
+              })}</ul>
 
               <div className="InputAdd">
                 <input
@@ -197,9 +235,8 @@ function Dash() {
             <div className="completed-tasks">
               <h2 className="TaskCompletedHeading">Completed Tasks</h2>
 
-              {CompletedTasks.map((elem, key) => {
+              <ul className="List">{CompletedTasks.map((elem, key) => {
                 return (
-                  // <ul className="List">
                     <div
                       className="ListDivision"
                       key={key}
@@ -210,9 +247,8 @@ function Dash() {
                       <div className="TickMark">☑️</div>{" "}
                       <li className="TaskCompleted">{elem}</li>
                     </div>
-                  // </ul>
                 );
-              })}
+              })}</ul>
             </div>
           </div>
         </div>

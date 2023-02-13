@@ -25,7 +25,7 @@ export default function Regs() {
           "Content-Type": "application/json",
         },
       });
-
+      
       if (res.status === 200) {
         window.alert("All Input required! ");
       } else if (res.status === 409) {

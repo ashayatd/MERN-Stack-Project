@@ -2,9 +2,11 @@ const task = require("../../models/tasks");
 const jwt = require("jsonwebtoken");
 
 async function addTask(req, res) {
+
     try {
         let userCreated = jwt.verify(req.cookies.jwt, process.env.SECRET_KEY)._id;
         let { title, description, status } = req.body; // input from user
+        console.log(title, description, status);
         if (!(title)) {
             res.status(200);
             return res.send(JSON.stringify({ message: "Please Fill The Box!" }));
@@ -23,6 +25,7 @@ async function addTask(req, res) {
         console.log("Error in taks route:", err.message);
         return res.status(200);
     }
+
 }
 
 module.exports = addTask;
