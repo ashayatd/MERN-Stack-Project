@@ -9,17 +9,17 @@ export default function Regs() {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
+  const [Role, setRole] = useState("");
   const navigate = useNavigate();
 
   const registerUser = async (e) => {
     e.preventDefault();
-
     if (cpassword === password) {
       console.log(email, password, username);
       const res = await fetch("/user/register", {
         method: "POST",
         body: JSON.stringify({
-          data: { email: email, password: password, username: username },
+          data: { email: email, password: password, username: username }, // ,role: Role
         }),
         headers: {
           "Content-Type": "application/json",
@@ -104,6 +104,14 @@ export default function Regs() {
             value={cpassword}
             type={"password"}
           />
+          <br />
+        </div>
+        <div className="form-group">
+          <label>Role</label>
+          <select>
+            <option defaultChecked={true} value={false}>User</option>
+            <option value={true}>Admin</option>
+          </select>
           <br />
         </div>
 

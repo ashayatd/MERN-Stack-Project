@@ -36,6 +36,12 @@
     border-radius: 0.25rem;
     width: 17rem;
   }
+  .form-group select{
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    width: 18rem;
+  }
   
   button {
     background-color: #4CAF50;

@@ -11,7 +11,6 @@ const completeTask = async (req, res) => {
     if(update){
         console.log("data Transfered");
     }
-    // update
     return res.status(201);
   } catch (error) {
     console.log("CompleteTask Error: ", error.message);

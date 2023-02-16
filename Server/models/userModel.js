@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
     username: {type:String, require:true, unique: true},
     password: {type:String, default:null},
     token: String,
+    // role: {type:Boolean, default:false}
 })
 
 // Generate Auth Token

@@ -18,7 +18,7 @@ connection();
 
 app.use('/user',userRoutes);
 app.use('/loguser',loginRoute);
-app.use('/api',taskRoutes);
+app.use('/api', taskRoutes);
 
 app.get('/logout', (req,res)=>{
     res.clearCookie("jwt");

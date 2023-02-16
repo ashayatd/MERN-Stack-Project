@@ -1,19 +1,38 @@
-import { React, useState, useEffect, useCallback } from "react";
-import { json, Link, Outlet } from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dash() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
-
   const [Users, setUsers] = useState(["Name 1", "name 2", "name 3"]);
   const [Description, setDescription] = useState("");
 
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
+  const [updatedTask, setupdatedTask] = useState("");
+  const [userName, setuserName] = useState("");
 
   const navigate = useNavigate();
 
+  const callUsername = async ()=>{
+    try {
+      console.log("Username function Called");
+      const res = fetch("api/username",{
+        method: "GET", 
+        headers:{
+          Accept:"application/json",
+          "Content-type":"application/json",
+        },
+        credentials:"include",
+      });
+      if (res.status === 201) {
+        console.log("Username Called");
+      }
+    } catch (error) {
+      console.log("Error in: "+error.message);
+    }
+  }
   const calldashboardpage = async () => {
     try {
       const res = await fetch("/user/authenticate", {
@@ -24,13 +43,16 @@ function Dash() {
         },
         credentials: "include",
       });
+      
+      // const tempUser = await res.json();
+      // console.log(tempUser);
 
       if (res.status !== 201) {
         const error = new Error(res.error);
         navigate(`/`);
         throw error;
       }
-      //res = res.json();
+
       //setUsers(res);
     } catch (error) {
       console.log(error);
@@ -39,7 +61,6 @@ function Dash() {
   };
 
   const fetchTasks = async () => {
-
     try {
       const res = await fetch("/api/fetchTask", {
         method: "GET",
@@ -54,6 +75,7 @@ function Dash() {
         const error = new Error(res.error);
         throw error;
       }
+
       const data = await res.json();
       const Temp = data.filter((elem, ind) => {
         return elem.status === false;
@@ -95,7 +117,7 @@ function Dash() {
     try {
       const res = await fetch("/api/completeTask", {
         method: "POST",
-        body: JSON.stringify({ide: key}),
+        body: JSON.stringify({ ide: key }),
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
@@ -112,11 +134,10 @@ function Dash() {
   };
 
   const reverseTransfer = async (key) => {
-    
     try {
       const res = await fetch("/api/redoTask", {
         method: "POST",
-        body: JSON.stringify({ide: key}),
+        body: JSON.stringify({ ide: key }),
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
@@ -132,12 +153,11 @@ function Dash() {
     }
   };
 
-  const deleteCompletedTasks = async (key)=>{
-
+  const deleteCompletedTasks = async (key) => {
     try {
       const res = await fetch("/api/deleteTask", {
         method: "POST",
-        body: JSON.stringify({ide: key}),
+        body: JSON.stringify({ ide: key }),
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
@@ -151,8 +171,33 @@ function Dash() {
     } catch (error) {
       console.log(error);
     }
+  };
+  const OnInputHandler = async (e, id)=>{
+      setupdatedTask(e.target.innerText);
+      alert(updatedTask);
+      UpdateDataTitle(id, updatedTask);
   }
 
+
+  const UpdateDataTitle = async (key, updatedTask) => {
+    try {
+      const res = await fetch("/api/updateTask", {
+        method: "POST",
+        body: JSON.stringify({ ide: key, newTitle: updatedTask }),
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (res.status !== 201) {
+        window.alert(`status:`, res.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const AddTasks = async () => {
     const taskInput = {
@@ -186,12 +231,11 @@ function Dash() {
     }
   };
 
-  
   useEffect(() => {
+    // callUsername();
     calldashboardpage();
     fetchTasks();
-  },[deleteCompletedTasks, dataTransfer]);
-
+  }, [deleteCompletedTasks, dataTransfer]);
 
   return (
     <div>
@@ -212,21 +256,8 @@ function Dash() {
 
       <Outlet />
       <>
-
-        <h2>Hello</h2>
+        <h2 onClick={callUsername}>Hello</h2>
         <div className="container">
-          <div className="sidebar">
-            <h2>Users</h2>
-            <ul className="UsersNamesList">
-            {Users.map((elem, ing) => {
-              return (
-                <li key={ing} className="UserName">
-                  {elem}
-                </li>
-              );
-            })}
-            </ul>
-          </div>
           <div className="task-container">
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
@@ -234,14 +265,20 @@ function Dash() {
               <ul className="List">
                 {OngoingTasks.map((name, key) => {
                   return (
-                    <li
-                      className="TaskOngoing"
-                      key={name._id}
-                      onClick={() => {
-                        dataTransfer(name._id);
-                      }}
-                    >
-                      ☐ {name.task.title}{" "}
+                    <li className="TaskOngoing" key={name._id}>
+                      <div
+                        className="checkbox"
+                        onClick={() => {
+                          dataTransfer(name._id);
+                        }}
+                      >
+                        ☐&#160;&#160;&#160;&#160;&#160;
+                      </div>{" "}
+                      <div className="WrittenContent" spellCheck={false} contentEditable={false}
+                      onInput={(e)=>{OnInputHandler(e, name._id)}}
+                      >
+                        {name.task.title}
+                      </div>
                     </li>
                   );
                 })}
@@ -275,7 +312,14 @@ function Dash() {
                       }}
                     >
                       <div className="TickMark">
-                        <span onClick={()=>{deleteCompletedTasks(name._id)}}>❌</span>&#160;&#160;&#160;&#160;&#160;&#160;☑️
+                        <span
+                          onClick={() => {
+                            deleteCompletedTasks(name._id);
+                          }}
+                        >
+                          ❌
+                        </span>
+                        &#160;&#160;&#160;&#160;&#160;&#160;☑️
                       </div>{" "}
                       <li className="TaskCompleted">{name.task.title}</li>
                     </div>
@@ -284,10 +328,6 @@ function Dash() {
               </ul>
             </div>
           </div>
-        </div>
-        <div className="ButtonDiv">
-          <button className="Button1">Reload</button>
-          <button className="Button">Save</button>
         </div>
       </>
     </div>
