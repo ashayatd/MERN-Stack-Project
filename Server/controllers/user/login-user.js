@@ -13,7 +13,7 @@ const login = async (req, res)=>{
 
         const username = Username;
         const userLogin = await user.findOne({username});
-        // console.log(userLogin);
+        console.log("User Login:", userLogin);
         if(!userLogin){
             return res.status(410).json({message: "User Not Found"})
         }
@@ -34,7 +34,8 @@ const login = async (req, res)=>{
             res.status(200).cookie("jwt", token,{
                 expires:new Date(Date.now() + 2589200000),
                 httpOnly:true
-            }).json({message:"User signin Successfully"});
+            }).json({message:"User signin Successfully",
+                    role: userLogin.role  });
         }
     }
     
