@@ -65,7 +65,7 @@ console.log(userName);
 
   const fetchUserstasks = async (e)=>{
     try {
-      const tasks = await fetch("/admin/useres-tasks", {
+      const tasks = await fetch("/admin/users-tasks", {
         method: "GET", 
         body: JSON.stringify({userId: e.target.value}),
         headers: {
@@ -119,7 +119,7 @@ console.log(userName);
 
   const dataTransfer = async (key) => {
     try {
-      const res = await fetch("/admin/", {
+      const res = await fetch("/admin/task-completed", {
         method: "POST",
         body: JSON.stringify({ ide: key }),
         headers: {
@@ -139,7 +139,7 @@ console.log(userName);
 
   const reverseTransfer = async (key) => {
     try {
-      const res = await fetch("/api/redoTask", {
+      const res = await fetch("/admin/", {
         method: "POST",
         body: JSON.stringify({ ide: key }),
         headers: {
