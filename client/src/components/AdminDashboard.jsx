@@ -66,10 +66,24 @@ console.log(userName);
 
   const makeAdmin = ()=>{
     try {
-      
-    } catch (error) {
+      const res = fetch('', {
+        method:"POST",
+        body: JSON.stringify({
+          ide: userID
+        }),
+        header:{
+          Accept:"application/json",
+          "Content-type":"application/json"
+        },
+        credentials:"include",
+      });
+      if(res.status!==201){
+        window.alert(`Error in Admin request`, res.status);
+      }
+
+      } catch (error) {
       console.log(error);
-    }
+      }
   }
 
 
