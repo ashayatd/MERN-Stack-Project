@@ -3,10 +3,14 @@ const Route = express.Router();
 const users = require("../controllers/admin/displayusernames");
 const task = require("../controllers/admin/tasks");
 const admincompletetask = require("../controllers/admin/admincompletetask");
+const adminreversetask = require("../controllers/admin/adminreversetask");
+const adminupdatetitle = require("../controllers/admin/adminupdatetitle");
 
 Route.get('/users',users);
 Route.get('/users-tasks', task);
 Route.post('/task-completed', admincompletetask);
 Route.post('/reverse-task', adminreversetask);
+Route.post('/adminupdatetitle',adminupdatetitle);
+
 
 module.exports = Route;

@@ -1,6 +1,6 @@
-const task = require("../../models/tasks");
+const task  = require("../../models/Tasks");
 
-const updateTask = (req, res)=>{
+const adminupdatetitle = async (req, res)=>{
     try {
         let { ide, newTitle } = req.body;
         console.log(ide,"  ", newTitle);
@@ -12,10 +12,11 @@ const updateTask = (req, res)=>{
         if(update){
             console.log("updated");
         }
-
         return res.status(201);
-      } catch (error) {
+      } 
+      
+    catch (error) {
         console.log("CompleteTask Error: ", error.message);
       }
 }
- module.exports = updateTask;
+module.exports = adminupdatetitle;

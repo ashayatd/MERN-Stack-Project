@@ -74,8 +74,8 @@ console.log(userName);
         },
         credentials:"include",
       });
-      if (res.status !== 201) {
-        const error = new Error(res.error);
+      if (tasks.status !== 201) {
+        const error = new Error(tasks.error);
         throw error;
       }
        const data = await tasks.json();
@@ -176,15 +176,10 @@ console.log(userName);
       console.log(error);
     }
   };
-  const OnInputHandler = async (e, id) => {
-    setupdatedTask(e.target.innerText);
-    alert(updatedTask);
-    UpdateDataTitle(id, updatedTask);
-  };
 
   const UpdateDataTitle = async (key, updatedTask) => {
     try {
-      const res = await fetch("/api/updateTask", {
+      const res = await fetch("/admin/adminupdatetitle", {
         method: "POST",
         body: JSON.stringify({ ide: key, newTitle: updatedTask }),
         headers: {
@@ -297,9 +292,9 @@ console.log(userName);
                         className="WrittenContent"
                         spellCheck={false}
                         contentEditable={false}
-                        onInput={(e) => {
-                          OnInputHandler(e, name._id);
-                        }}
+                        onBlur={(e)=>{
+                          UpdateDataTitle(name._id, e.target.innerText)
+                          console.log(e.target.innerText)}}
                       >
                         {name.task.title}
                       </div>
