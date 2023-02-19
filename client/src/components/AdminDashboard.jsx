@@ -56,29 +56,30 @@ function AdminDashboard() {
       console.log(error);
     }
   }
+
 console.log(userName);
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const fetchTasks = async () => {
+
+  const fetchUserstasks = async (e)=>{
     try {
-      const res = await fetch("/admin/useres-tasks", {
-        method: "GET",
+      const tasks = await fetch("/admin/useres-tasks", {
+        method: "GET", 
+        body: JSON.stringify({userId: e.target.value}),
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
         },
-        credentials: "include",
+        credentials:"include",
       });
-
       if (res.status !== 201) {
         const error = new Error(res.error);
         throw error;
       }
-
-      const data = await res.json();
-      const Temp = data.filter((elem, ind) => {
+       const data = await tasks.json();
+       const Temp = data.filter((elem, ind) => {
         return elem.status === false;
       });
       setOngoingTasks(Temp);
@@ -87,10 +88,12 @@ console.log(userName);
         return elem.status === true;
       });
       setCompletedTasks(Temp2);
+      
     } catch (error) {
       console.log(error);
     }
-  };
+
+  }
 
   const DeleteCookie = async () => {
     try {
@@ -116,7 +119,7 @@ console.log(userName);
 
   const dataTransfer = async (key) => {
     try {
-      const res = await fetch("/api/completeTask", {
+      const res = await fetch("/admin/", {
         method: "POST",
         body: JSON.stringify({ ide: key }),
         headers: {
@@ -259,15 +262,17 @@ console.log(userName);
         <div className="container">
             <div className="users">
               <h2 className="TaskOngoingHeading">Users</h2>
-              <ul className="listOfUsers">
+              <option className="listOfUsers">
                 {
                   userName.map((name, key)=>{
                     return (
-                    <li key={key}> {name.email} </li>
+                    <select key={key} value={name._id} 
+                    onChange={(e)=>{fetchUserstasks(e)}}
+                    > {name.username} </select>
                     )
                   })
                 }
-              </ul>
+              </option>
             </div>
           <div className="task-container">
 
