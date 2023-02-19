@@ -3,7 +3,7 @@ const task = require("../../models/tasks");
 const fetchTasks = async (req, res)=>{
     try {
         let userId = req.body;
-        const userTasks = await task.find({_id:userId});
+        const userTasks = await task.find({userCreated:userId});
         return res.status(201).json(userTasks);
         
     } catch (error) {

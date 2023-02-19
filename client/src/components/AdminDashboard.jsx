@@ -11,8 +11,9 @@ function AdminDashboard() {
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [updatedTask, setupdatedTask] = useState("");
-  const [userName, setuserName] = useState("");
+  const [userName, setuserName] = useState([]);
   const [userID, setuserID] = useState("");
+  const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
 
   const navigate = useNavigate();
 
@@ -51,9 +52,11 @@ function AdminDashboard() {
 
       if(res.status === 201){
        const Userentiredata = await res.json();
-       setuserName(Userentiredata.users);
-       setuserID(Userentiredata.userCreated);
+
+       setuserName(Userentiredata);
+       // setuserID(Userentiredata.userCreated);
       }
+
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +91,7 @@ console.log(userName);
 
 
   const fetchUserstasks = async (e)=>{
+    console.log("Fetch Tasks");
     try {
       const tasks = await fetch("/admin/users-tasks", {
         method: "GET", 
@@ -276,6 +280,19 @@ console.log(userName);
               Logout
             </Link>
           </li>
+          <li>
+            <option>           
+            {
+              Request.map((elem, key)=>{
+                return (<select key={key}>
+                  {elem}
+                  <button>accept</button>
+                  <button>deny  </button>
+                  </select>);
+              })
+            }
+            </option>
+          </li>
         </ul>
       </nav>
 
@@ -285,25 +302,19 @@ console.log(userName);
         <div className="container">
             <div className="users">
               <h2 className="TaskOngoingHeading">Users</h2>
-              <option className="listOfUsers">
+              <select className="listOfUsers"  onChange={(e)=>{fetchUserstasks(e)}}>
                 {
                   userName.map((name, key)=>{
                     return (
-                    <select key={key} value={name._id} 
-                    onChange={(e)=>{fetchUserstasks(e)}}
-                    > {name.username} </select>
-                    )
+                    <option key={name._id} value={name._id} 
+                    > {name.username} </option>
+                    );
                   })
                 }
-              </option>
-            </div>
-            <div className="button-div">
+              </select>
               <button className="admin-button" onClick={makeAdmin}>Make Admin</button>
             </div>
           <div className="task-container">
-
-
-
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
 

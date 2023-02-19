@@ -9,6 +9,8 @@ function Dash() {
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [Name, setName] = useState("Sample Name");
+  const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
+
 
   const navigate = useNavigate();
 
@@ -251,6 +253,22 @@ function Dash() {
               Logout
             </Link>
           </li>
+          
+            <select>
+            {
+              Request.map((elem, key)=>{
+                return (
+                  <option key={key} className="optionTag">
+                    <div>{elem}&#160;&#160;&#160;</div>
+                    <div>
+                      <div>✔️&#160;&#160;</div>
+                      <div>❌</div>
+                    </div>
+                  </option>);
+              })
+            } 
+            </select>        
+          
         </ul>
       </nav>
 
