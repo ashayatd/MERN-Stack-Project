@@ -1,4 +1,4 @@
-const task  = require("../../models/Tasks");
+const task = require("../../models/tasks");
 
 const adminupdatetitle = async (req, res)=>{
     try {
@@ -14,7 +14,7 @@ const adminupdatetitle = async (req, res)=>{
         }
         return res.status(201);
       } 
-      
+
     catch (error) {
         console.log("CompleteTask Error: ", error.message);
       }

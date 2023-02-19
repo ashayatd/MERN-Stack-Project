@@ -1,4 +1,4 @@
-const task = require("../../models/Tasks");
+const task = require("../../models/tasks");
 
 const adminaddtask = async (req, res)=>{
     try {

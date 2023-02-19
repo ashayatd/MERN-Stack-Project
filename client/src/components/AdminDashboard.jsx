@@ -64,6 +64,14 @@ console.log(userName);
     fetchUser();
   }, []);
 
+  const makeAdmin = ()=>{
+    try {
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   const fetchUserstasks = async (e)=>{
     try {
@@ -274,6 +282,9 @@ console.log(userName);
                   })
                 }
               </option>
+            </div>
+            <div className="button-div">
+              <button className="admin-button" onClick={makeAdmin}>Make Admin</button>
             </div>
           <div className="task-container">
 

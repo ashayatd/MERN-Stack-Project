@@ -8,7 +8,7 @@ const authenticate = async (req, res, next)=>{
         const rootUser = user.findOne({
             id: verifyToken._id, "token":token, "role": admin
         });
-        if(!rootUser){throw new Error(`User Not Found! Go to Register`)};
+        if(!rootUser){throw new Error(`Admin Not Found! Go to Register`)};
 
         next();
 
