@@ -3,8 +3,6 @@ import { useState} from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Login.css";
 
-
-
 const Login = () => {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
@@ -36,7 +34,12 @@ const Login = () => {
     } 
     else {
       console.log(data.message);
-      navigate("/dashboard/dashboard");
+      if(data.role==="user"){
+        navigate("/dashboard");
+      }
+      if(data.role==="admin"){
+      navigate("admindashboard");
+      }
     }
   };
 

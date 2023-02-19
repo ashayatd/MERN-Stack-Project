@@ -9,7 +9,7 @@ export default function Regs() {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
-  const [Role, setRole] = useState("");
+  const [Role, setRole] = useState("user");
   const navigate = useNavigate();
 
   const registerUser = async (e) => {
@@ -19,13 +19,13 @@ export default function Regs() {
       const res = await fetch("/user/register", {
         method: "POST",
         body: JSON.stringify({
-          data: { email: email, password: password, username: username }, // ,role: Role
+          data: { email: email, password: password, username: username, role: Role }, // 
         }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      
+
       if (res.status === 200) {
         window.alert("All Input required! ");
       } else if (res.status === 409) {
@@ -43,6 +43,8 @@ export default function Regs() {
   function chaeckSet(e) {
     setcpassword(e.target.value);
   }
+
+
   return (
     <>    <nav id="navbar">
     <ul>
@@ -108,9 +110,13 @@ export default function Regs() {
         </div>
         <div className="form-group">
           <label>Role</label>
-          <select>
-            <option defaultChecked={true} value={false}>User</option>
-            <option value={true}>Admin</option>
+
+          <select onChange={async (e)=>{
+            setRole(e.target.value)
+            }}>
+              
+            <option defaultChecked={true} value={"user"}>User</option>
+            <option value={"admin"}>Admin</option>
           </select>
           <br />
         </div>

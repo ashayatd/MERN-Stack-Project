@@ -1,70 +1,69 @@
-import { React, useState, useEffect } from "react";
+import "./AdminDashboard.css";
+import { React, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
 
-function Dash() {
+function AdminDashboard() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
+  const [Users, setUsers] = useState(["Name 1", "name 2", "name 3"]);
   const [Description, setDescription] = useState("");
+
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
-  const [Name, setName] = useState("Sample Name");
+  const [updatedTask, setupdatedTask] = useState("");
+  const [userName, setuserName] = useState("");
 
   const navigate = useNavigate();
 
-  const callUsername = async () => {
-    try {
-      console.log("Username function Called");
-      
-      const res = await fetch("api/username", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        credentials: "include",
-      });
-      const UsersName = await res.json();
-      
-      if (res.status === 201) {
-        setName(UsersName.UserName);
-      }
-
-    } catch (error) {
-      console.log("Error in: " + error.stack);
-    }
-  };
-
-  const calldashboardpage = async () => {
+  const callAdminDashboard = async () => {
     try {
       const res = await fetch("/user/authenticate", {
         method: "POST",
-        headers: {
+        header: {
           Accept: "application/json",
           "Content-type": "application/json",
         },
         credentials: "include",
       });
-
-      // const tempUser = await res.json();
-      // console.log(tempUser);
 
       if (res.status !== 201) {
         const error = new Error(res.error);
         navigate(`/`);
         throw error;
       }
-
-      //setUsers(res);
     } catch (error) {
       console.log(error);
       navigate(`/`);
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const res = await fetch('/admin/users',{
+        method:"GET", 
+        headers:{
+          Accept:"application/json",
+          "Content-type":"application/json",
+        },
+        credentials:"include"
+      });
+
+      if(res.status === 201){
+       const Userentiredata = await res.json();
+       setuserName(Userentiredata.users);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+console.log(userName);
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const fetchTasks = async () => {
     try {
-      const res = await fetch("/api/fetchTask", {
+      const res = await fetch("/admin/useres-tasks", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -79,7 +78,6 @@ function Dash() {
       }
 
       const data = await res.json();
-
       const Temp = data.filter((elem, ind) => {
         return elem.status === false;
       });
@@ -175,6 +173,11 @@ function Dash() {
       console.log(error);
     }
   };
+  const OnInputHandler = async (e, id) => {
+    setupdatedTask(e.target.innerText);
+    alert(updatedTask);
+    UpdateDataTitle(id, updatedTask);
+  };
 
   const UpdateDataTitle = async (key, updatedTask) => {
     try {
@@ -229,13 +232,9 @@ function Dash() {
   };
 
   useEffect(() => {
-    calldashboardpage();
-    fetchTasks();
+    callAdminDashboard();
+    // fetchTasks();
   }, [deleteCompletedTasks, dataTransfer]);
-
-  useEffect(() => {
-     callUsername();
-  }, []);
 
   return (
     <div>
@@ -256,10 +255,24 @@ function Dash() {
 
       <Outlet />
       <>
-        <h2>Hello { Name}</h2>
-
+        <h2>Hello</h2>
         <div className="container">
+            <div className="users">
+              <h2 className="TaskOngoingHeading">Users</h2>
+              <ul className="listOfUsers">
+                {
+                  userName.map((name, key)=>{
+                    return (
+                    <li key={key}> {name.email} </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
           <div className="task-container">
+
+
+
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
 
@@ -278,10 +291,10 @@ function Dash() {
                       <div
                         className="WrittenContent"
                         spellCheck={false}
-                        contentEditable={true}
-                        onBlur={(e)=>{
-                          UpdateDataTitle(name._id, e.target.innerText)
-                          console.log(e.target.innerText)}}
+                        contentEditable={false}
+                        onInput={(e) => {
+                          OnInputHandler(e, name._id);
+                        }}
                       >
                         {name.task.title}
                       </div>
@@ -340,4 +353,4 @@ function Dash() {
   );
 }
 
-export default Dash;
+export default AdminDashboard;

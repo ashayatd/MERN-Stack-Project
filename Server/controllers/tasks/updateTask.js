@@ -5,8 +5,8 @@ const updateTask = (req, res)=>{
         let { ide, newTitle } = req.body;
         console.log(ide,"  ", newTitle);
         const id = { "_id": ide };
-        const newData = {$set: {title: newTitle}};
-        const update = task.updateMany(id, newData, (error, res)=>{
+        const newData = {$set: {task:{title: newTitle}}};
+        const update = task.updateOne(id, newData, (error, res)=>{
             if(error) throw Error;
         });
         if(update){
