@@ -12,6 +12,7 @@ function AdminDashboard() {
   const [Input, setInput] = useState("");
   const [updatedTask, setupdatedTask] = useState("");
   const [userName, setuserName] = useState("");
+  const [userID, setuserID] = useState("");
 
   const navigate = useNavigate();
 
@@ -51,6 +52,7 @@ function AdminDashboard() {
       if(res.status === 201){
        const Userentiredata = await res.json();
        setuserName(Userentiredata.users);
+       setuserID(Userentiredata.userCreated);
       }
     } catch (error) {
       console.log(error);
@@ -159,7 +161,7 @@ console.log(userName);
 
   const deleteCompletedTasks = async (key) => {
     try {
-      const res = await fetch("/api/deleteTask", {
+      const res = await fetch("/admin/admindeleteTask", {
         method: "POST",
         body: JSON.stringify({ ide: key }),
         headers: {
@@ -204,18 +206,22 @@ console.log(userName);
         description: "",
       },
       status: false,
+      userCreated: userID,
     };
+
     setInput("");
 
     try {
-      const AddTasksResp = await fetch("/api/addTask", {
+      const AddTasksResp = await fetch("/admin/adminaddtask", {
         method: "POST",
         body: JSON.stringify({
           title: Input,
           Description: "",
           status: false,
+          userCreated: userID
         }),
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         credentials: "include",
@@ -224,14 +230,14 @@ console.log(userName);
       if (AddTasksResp.status !== 201) {
         window.alert(`Status:` + AddTasksResp.status);
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error.message);
     }
   };
 
   useEffect(() => {
     callAdminDashboard();
-    // fetchTasks();
   }, [deleteCompletedTasks, dataTransfer]);
 
   return (
