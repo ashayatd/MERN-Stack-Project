@@ -12,8 +12,7 @@ const admincompletetask = async (req, res)=>{
             console.log("data Transfered");
         }
         return res.status(201);
-
-
+        
     } catch (error) {
         console.log(error);
     }

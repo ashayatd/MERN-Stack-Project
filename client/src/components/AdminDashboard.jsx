@@ -5,14 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
-  const [Users, setUsers] = useState(["Name 1", "name 2", "name 3"]);
   const [Description, setDescription] = useState("");
 
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
-  const [updatedTask, setupdatedTask] = useState("");
   const [userName, setuserName] = useState([]);
-  const [userID, setuserID] = useState("");
+  const [userToken, setuserToken] = useState("");
   const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
 
   const navigate = useNavigate();
@@ -52,9 +50,10 @@ function AdminDashboard() {
 
       if(res.status === 201){
        const Userentiredata = await res.json();
-
+       console.log(Userentiredata);
        setuserName(Userentiredata);
-       // setuserID(Userentiredata.userCreated);
+      //  setuserID(Userentiredata.userCreated);
+      //  console.log("username: ", userName);
       }
 
     } catch (error) {
@@ -62,17 +61,22 @@ function AdminDashboard() {
     }
   }
 
-console.log(userName);
   useEffect(() => {
+    callAdminDashboard();
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    fetchUserstasks();
+  }, []);
+  // deleteCompletedTasks, reverseTransfer, dataTransfer
+
   const makeAdmin = ()=>{
     try {
-      const res = fetch('', {
+      const res = fetch('/admin/makeadmin', {
         method:"POST",
         body: JSON.stringify({
-          ide: userID
+          ide: userToken
         }),
         header:{
           Accept:"application/json",
@@ -80,8 +84,8 @@ console.log(userName);
         },
         credentials:"include",
       });
-      if(res.status!==201){
-        window.alert(`Error in Admin request`, res.status);
+      if(res.status !== 201){
+        console.log(`Error in Admin request`, res.status);
       }
 
       } catch (error) {
@@ -89,19 +93,20 @@ console.log(userName);
       }
   }
 
-
   const fetchUserstasks = async (e)=>{
-    console.log("Fetch Tasks");
+    const x = (e.target.value);
+    setuserToken(x);
     try {
-      const tasks = await fetch("/admin/users-tasks", {
-        method: "GET", 
-        body: JSON.stringify({userId: e.target.value}),
+      const url = "/admin/users-tasks/" + x;
+      const tasks = await fetch(url, {
+        method: "GET",
         headers: {
           Accept: "application/json",
           "Content-type": "application/json",
         },
         credentials:"include",
       });
+
       if (tasks.status !== 201) {
         const error = new Error(tasks.error);
         throw error;
@@ -118,9 +123,8 @@ console.log(userName);
       setCompletedTasks(Temp2);
       
     } catch (error) {
-      console.log(error);
+      console.log("error in fetchuser: ",error);
     }
-
   }
 
   const DeleteCookie = async () => {
@@ -167,7 +171,7 @@ console.log(userName);
 
   const reverseTransfer = async (key) => {
     try {
-      const res = await fetch("/admin/", {
+      const res = await fetch("/admin/reverse-task", {
         method: "POST",
         body: JSON.stringify({ ide: key }),
         headers: {
@@ -232,7 +236,7 @@ console.log(userName);
         description: "",
       },
       status: false,
-      userCreated: userID,
+      userCreated: userToken,
     };
 
     setInput("");
@@ -240,12 +244,7 @@ console.log(userName);
     try {
       const AddTasksResp = await fetch("/admin/adminaddtask", {
         method: "POST",
-        body: JSON.stringify({
-          title: Input,
-          Description: "",
-          status: false,
-          userCreated: userID
-        }),
+        body: JSON.stringify(taskInput),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -261,11 +260,6 @@ console.log(userName);
       console.log(error.message);
     }
   };
-
-  useEffect(() => {
-    callAdminDashboard();
-  }, [deleteCompletedTasks, dataTransfer]);
-
   return (
     <div>
       <nav id="navbar">
@@ -281,17 +275,19 @@ console.log(userName);
             </Link>
           </li>
           <li>
-            <option>           
+            <select>           
             {
               Request.map((elem, key)=>{
-                return (<select key={key}>
-                  {elem}
-                  <button>accept</button>
-                  <button>deny  </button>
-                  </select>);
+                return (<option key={key} className="optionTag">
+                <div>{elem}&#160;&#160;&#160;</div>
+                <div>
+                  <div>✔️&#160;&#160;</div>
+                  <div>❌</div>
+                </div>
+              </option>);
               })
             }
-            </option>
+            </select>
           </li>
         </ul>
       </nav>
@@ -303,11 +299,12 @@ console.log(userName);
             <div className="users">
               <h2 className="TaskOngoingHeading">Users</h2>
               <select className="listOfUsers"  onChange={(e)=>{fetchUserstasks(e)}}>
+                <option>Select User</option>
                 {
-                  userName.map((name, key)=>{
+                  userName.map((date, key)=>{
                     return (
-                    <option key={name._id} value={name._id} 
-                    > {name.username} </option>
+                    <option key={date.userCreated} value={date.token}
+                    > {date.username}</option>
                     );
                   })
                 }

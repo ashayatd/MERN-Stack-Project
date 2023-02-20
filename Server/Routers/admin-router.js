@@ -8,14 +8,15 @@ const adminupdatetitle = require("../controllers/admin/adminupdatetitle");
 const adminaddtask = require("../controllers/admin/adminaddtask");
 const admindeleteTask = require("../controllers/admin/admindeleteTask");
 const adminauth = require("../../Server/middleware/admin_authenticate");
+const makeadmin = require("../controllers/admin/makeadmin");
 
 Route.get('/users', users);
-Route.get('/users-tasks', task);
+Route.get('/users-tasks/:userId', task);
 Route.post('/task-completed', admincompletetask);
 Route.post('/reverse-task', adminreversetask);
 Route.post('/adminupdatetitle',adminupdatetitle);
 Route.post('/adminaddtask',adminaddtask);
 Route.post('/admindeleteTask', admindeleteTask);
-
+Route.post('/makeadmin', makeadmin);
 
 module.exports = Route;
