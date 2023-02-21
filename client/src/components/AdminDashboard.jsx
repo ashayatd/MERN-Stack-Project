@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 function AdminDashboard() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
   const [Description, setDescription] = useState("");
-
+  const [Name, setName] = useState("Sample Name");
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [userName, setuserName] = useState([]);
   const [userToken, setuserToken] = useState("");
   const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
+  const [Event, setEvent] = useState('');
 
   const navigate = useNavigate();
 
@@ -258,7 +259,7 @@ function AdminDashboard() {
   },[]);
   
   useEffect(() => {
-    fetchUserstasks();
+    fetchUserstasks(Event);
   }, [deleteCompletedTasks, reverseTransfer, dataTransfer]);
 
   return (
@@ -295,11 +296,13 @@ function AdminDashboard() {
 
       <Outlet />
       <>
-        <h2>Hello</h2>
+        <h2>Hello { Name}</h2>
         <div className="container">
             <div className="users">
               <h2 className="TaskOngoingHeading">Users</h2>
-              <select className="listOfUsers"  onChange={(e)=>{fetchUserstasks(e)}}>
+              <select className="listOfUsers"  onChange={(e)=>{
+                setEvent(e);
+                fetchUserstasks(e)}}>
                 <option>Select User</option>
                 {
                   userName.map((date, key)=>{

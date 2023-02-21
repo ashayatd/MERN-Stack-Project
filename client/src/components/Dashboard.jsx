@@ -275,7 +275,7 @@ function Dash() {
 
       <Outlet />
       <>
-        <h2>Hello { Name}</h2>
+        <h2>Hello {Name} </h2>
 
         <div className="container">
           <div className="task-container">
