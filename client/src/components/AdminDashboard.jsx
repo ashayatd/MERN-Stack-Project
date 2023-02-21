@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 function AdminDashboard() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
   const [Description, setDescription] = useState("");
+  const [Alltasks , setAlltasks] = useState([]);
   const [Name, setName] = useState("Sample Name");
+
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [userName, setuserName] = useState([]);
@@ -38,6 +40,54 @@ function AdminDashboard() {
     }
   };
 
+  async function callalltasks(){
+    try { 
+        const response = await fetch("/admin/callalltasks",{
+            method:"GET", 
+            headers:{
+                Accept:"application/json",
+                "Content-type":"application/json",
+            },
+            credentials:"include",
+        });
+
+        if(response.status === 201){
+            const temp18 = await response.json();
+            console.log("temp 18", temp18);
+            setAlltasks(temp18);
+        } 
+        else {
+            console.log(`Server responded with status code ${response.status}`);
+        }
+    } catch (error) {
+        console.log("error in call all tasks", error);
+    }
+}
+
+  console.log("Alltasks", Alltasks);
+
+  const callUsername = async () => {
+    try {
+      const res = await fetch("/api/username", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      const UsersName = await res.json();
+
+      if (res.status === 201) {
+       setName(UsersName.UserName);
+      }
+
+    } catch (error) {
+      console.log("Error in: " + error);
+    }
+  };
+
   async function fetchUser(){
     try {
       const res = await fetch('/admin/users',{
@@ -51,7 +101,6 @@ function AdminDashboard() {
 
       if(res.status === 201){
        const Userentiredata = await res.json();
-       console.log(Userentiredata);
        setuserName(Userentiredata);
       //  setuserID(Userentiredata.userCreated);
       //  console.log("username: ", userName);
@@ -253,11 +302,33 @@ function AdminDashboard() {
       console.log(error.message);
     }
   };
+
+  const sendemail = async ()=>{
+    try {
+      const res = await fetch("/admin/sendemail", {
+        method:"POST",
+        body: JSON.stringify({email:" ashay.tamrakar@gmail.com"}),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(()=>{
+    callUsername();
     fetchUser();
     callAdminDashboard();
   },[]);
   
+useEffect(() => {
+  callalltasks();
+}, []);
+
   useEffect(() => {
     fetchUserstasks(Event);
   }, [deleteCompletedTasks, reverseTransfer, dataTransfer]);
@@ -357,6 +428,7 @@ function AdminDashboard() {
                 <button className="AddTaskButton" onClick={()=>{AddTasks()}}>
                   Add Task +{" "}
                 </button>
+                <button onClick={()=>{sendemail()}}>Send Email</button>
               </div>
             </div>
 
@@ -389,6 +461,18 @@ function AdminDashboard() {
                 })}
               </ul>
             </div>
+
+            <div className="completed-tasks">
+              <h2 className="TaskCompletedHeading">Total Tasks</h2>
+              <ul className="List">
+                {/* {
+                  alltasks.map((elem, key)=>{
+                    return <li> {"=>"} { elem}</li>
+                  })
+                } */}
+              </ul>
+            </div>
+
           </div>
         </div>
       </>
