@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const fetchTasks = async (req, res)=>{
     try {
         let userId = req.params.userId;
-        console.log("userId: ",userId);
         let userID = jwt.verify(userId, process.env.SECRET_KEY)._id; // userId-->token
         if(userId==="Select user"){
             return res.status(200).json({msg: "Please Select the User"});

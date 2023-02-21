@@ -5,7 +5,7 @@ const authenticateUser = async(req, res)=>{
     try {
         const token = req.cookies.jwt;
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
-        const rootuser = await user.findOne({id:verifyToken._id, "token":token});
+        const rootuser = await user.findOne({id:verifyToken._id, "token":token, role: "admin"});
         if(!rootuser){throw new Error(`User Not Found! Go to Register`)}
         res.sendStatus(201);
     } 

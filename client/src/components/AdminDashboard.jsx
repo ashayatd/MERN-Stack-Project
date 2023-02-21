@@ -15,9 +15,9 @@ function AdminDashboard() {
 
   const navigate = useNavigate();
 
-  const callAdminDashboard = async () => {
+  async function callAdminDashboard(){
     try {
-      const res = await fetch("/user/authenticate", {
+      const res = await fetch("/admin/authenticate", {
         method: "POST",
         header: {
           Accept: "application/json",
@@ -37,7 +37,7 @@ function AdminDashboard() {
     }
   };
 
-  const fetchUser = async () => {
+  async function fetchUser(){
     try {
       const res = await fetch('/admin/users',{
         method:"GET", 
@@ -61,23 +61,12 @@ function AdminDashboard() {
     }
   }
 
-  useEffect(() => {
-    callAdminDashboard();
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    fetchUserstasks();
-  }, []);
-  // deleteCompletedTasks, reverseTransfer, dataTransfer
-
-  const makeAdmin = ()=>{
+  async function makeAdmin(){
     try {
-      const res = fetch('/admin/makeadmin', {
+      console.log("UserToken 76:", userToken);
+      const res = await fetch('/admin/makeadmin', {
         method:"POST",
-        body: JSON.stringify({
-          ide: userToken
-        }),
+        body: JSON.stringify({token: userToken}),
         header:{
           Accept:"application/json",
           "Content-type":"application/json"
@@ -87,13 +76,16 @@ function AdminDashboard() {
       if(res.status !== 201){
         console.log(`Error in Admin request`, res.status);
       }
+      else if(res.status === 201){
+        window.alert(res.msg);
+      }
 
       } catch (error) {
-      console.log(error);
+      console.log("Error in Admin: ",error);
       }
   }
 
-  const fetchUserstasks = async (e)=>{
+  async function fetchUserstasks(e){
     const x = (e.target.value);
     setuserToken(x);
     try {
@@ -127,7 +119,7 @@ function AdminDashboard() {
     }
   }
 
-  const DeleteCookie = async () => {
+  async function DeleteCookie(){
     try {
       const response = await fetch("/logout", {
         method: "GET",
@@ -149,7 +141,7 @@ function AdminDashboard() {
     }
   };
 
-  const dataTransfer = async (key) => {
+  async function dataTransfer(key){
     try {
       const res = await fetch("/admin/task-completed", {
         method: "POST",
@@ -169,7 +161,7 @@ function AdminDashboard() {
     }
   };
 
-  const reverseTransfer = async (key) => {
+  async function reverseTransfer(key){
     try {
       const res = await fetch("/admin/reverse-task", {
         method: "POST",
@@ -189,7 +181,7 @@ function AdminDashboard() {
     }
   };
 
-  const deleteCompletedTasks = async (key) => {
+  async function deleteCompletedTasks(key){
     try {
       const res = await fetch("/admin/admindeleteTask", {
         method: "POST",
@@ -209,7 +201,7 @@ function AdminDashboard() {
     }
   };
 
-  const UpdateDataTitle = async (key, updatedTask) => {
+  async function UpdateDataTitle(key, updatedTask){
     try {
       const res = await fetch("/admin/adminupdatetitle", {
         method: "POST",
@@ -229,7 +221,7 @@ function AdminDashboard() {
     }
   };
 
-  const AddTasks = async () => {
+  async function AddTasks(){
     const taskInput = {
       task: {
         title: Input,
@@ -260,6 +252,15 @@ function AdminDashboard() {
       console.log(error.message);
     }
   };
+  useEffect(()=>{
+    fetchUser();
+    callAdminDashboard();
+  },[]);
+  
+  useEffect(() => {
+    fetchUserstasks();
+  }, [deleteCompletedTasks, reverseTransfer, dataTransfer]);
+
   return (
     <div>
       <nav id="navbar">
@@ -270,7 +271,7 @@ function AdminDashboard() {
             </Link>
           </li>
           <li>
-            <Link Link to="/" className="Link" onClick={DeleteCookie}>
+            <Link Link to="/" className="Link" onClick={()=>{DeleteCookie()}}>
               Logout
             </Link>
           </li>
@@ -309,7 +310,7 @@ function AdminDashboard() {
                   })
                 }
               </select>
-              <button className="admin-button" onClick={makeAdmin}>Make Admin</button>
+              <button className="admin-button" onClick={()=>{makeAdmin()}}>Make Admin</button>
             </div>
           <div className="task-container">
             <div className="ongoing-tasks">
@@ -330,7 +331,7 @@ function AdminDashboard() {
                       <div
                         className="WrittenContent"
                         spellCheck={false}
-                        contentEditable={false}
+                        contentEditable={true}
                         onBlur={(e)=>{
                           UpdateDataTitle(name._id, e.target.innerText)
                           console.log(e.target.innerText)}}
@@ -350,7 +351,7 @@ function AdminDashboard() {
                     setInput(e.target.value);
                   }}
                 />
-                <button className="AddTaskButton" onClick={AddTasks}>
+                <button className="AddTaskButton" onClick={()=>{AddTasks()}}>
                   Add Task +{" "}
                 </button>
               </div>

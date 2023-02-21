@@ -24,7 +24,7 @@ const Login = () => {
         "Content-Type": "application/json",
       },
     });
-    
+
     const data = await res.json();
 
     console.log("hit the BE");
@@ -38,7 +38,7 @@ const Login = () => {
         navigate("/dashboard");
       }
       if(data.role==="admin"){
-      navigate("admindashboard");
+      navigate("/admindashboard");
       }
     }
   };

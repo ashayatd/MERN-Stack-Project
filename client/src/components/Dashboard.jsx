@@ -65,6 +65,7 @@ function Dash() {
   };
 
   const fetchTasks = async () => {
+    console.log("fetchTask Called");
     try {
       const res = await fetch("/api/fetchTask", {
         method: "GET",
@@ -233,7 +234,7 @@ function Dash() {
   useEffect(() => {
     calldashboardpage();
     fetchTasks();
-  }, [deleteCompletedTasks, dataTransfer]);
+  }, [OngoingTasks, CompletedTasks]);
 
   useEffect(() => {
      callUsername();
