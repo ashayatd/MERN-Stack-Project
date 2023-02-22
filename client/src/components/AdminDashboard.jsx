@@ -6,23 +6,22 @@ import { useNavigate } from "react-router-dom";
 function AdminDashboard() {
   const [OngoingTasks, setOngoingTasks] = useState([]);
   const [Description, setDescription] = useState("");
-  const [Alltasks , setAlltasks] = useState([]);
+  const [Alltasks, setAlltasks] = useState([]);
   const [Name, setName] = useState("Sample Name");
-
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [userName, setuserName] = useState([]);
   const [userToken, setuserToken] = useState("");
-  const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
-  const [Event, setEvent] = useState('');
+  const [Request, setRequest] = useState([]);
+  const [Event, setEvent] = useState("");
 
   const navigate = useNavigate();
 
-  async function callAdminDashboard(){
+  async function callAdminDashboard() {
     try {
       const res = await fetch("/admin/authenticate", {
         method: "POST",
-        header: {
+        headers: {
           Accept: "application/json",
           "Content-type": "application/json",
         },
@@ -38,37 +37,85 @@ function AdminDashboard() {
       console.log(error);
       navigate(`/`);
     }
-  };
+  }
 
-  async function callalltasks(){
-    try { 
-        const response = await fetch("/admin/callalltasks",{
-            method:"GET", 
-            headers:{
-                Accept:"application/json",
-                "Content-type":"application/json",
-            },
-            credentials:"include",
-        });
-
-        if(response.status === 201){
-            const temp18 = await response.json();
-            console.log("temp 18", temp18);
-            setAlltasks(temp18);
-        } 
-        else {
-            console.log(`Server responded with status code ${response.status}`);
-        }
+  async function fetchrequests() {
+    try {
+      const res = await fetch("/admin/fetchrequests", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+          credentials: "include",
+        },
+      });
+      const data = await res.json();
+      console.log("fetchData", data);
+      setRequest(data);
     } catch (error) {
-        console.log("error in call all tasks", error);
+      console.log("error fetching request", error);
     }
-}
+  }
 
-  console.log("Alltasks", Alltasks);
+  async function callalltasks() {
+    try {
+      const response = await fetch("/admin/callalltasks", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.status === 201) {
+        const temp18 = await response.json();
+        console.log("temp 18", temp18);
+        setAlltasks(temp18);
+      } else {
+        console.log(`Server responded with status code ${response.status}`);
+      }
+    } catch (error) {
+      console.log("error in call all tasks", error);
+    }
+  }
+
+  async function createUser(elem) {
+
+    const data = {
+      _id: elem._id,
+      email: elem.email,
+      username: elem.username,
+      password: elem.password,
+      role: "admin",
+      __v: 0,
+    };
+
+    try {
+      const res = await fetch("/admin/admincreateuser", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      });
+      
+    } catch (error) {
+      console.log("fetcherror:",error)
+    }
+
+  }
+
+  async function deleteUser(e) {
+    const y = e;
+    console.log("y:", y);
+  }
 
   const callUsername = async () => {
     try {
-      const res = await fetch("/api/username", {
+      const res = await fetch("/admin/username", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -80,63 +127,59 @@ function AdminDashboard() {
       const UsersName = await res.json();
 
       if (res.status === 201) {
-       setName(UsersName.UserName);
+        setName(UsersName.UserName);
       }
-
     } catch (error) {
       console.log("Error in: " + error);
     }
   };
 
-  async function fetchUser(){
+  async function fetchUser() {
     try {
-      const res = await fetch('/admin/users',{
-        method:"GET", 
-        headers:{
-          Accept:"application/json",
-          "Content-type":"application/json",
+      const res = await fetch("/admin/users", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
         },
-        credentials:"include"
+        credentials: "include",
       });
 
-      if(res.status === 201){
-       const Userentiredata = await res.json();
-       setuserName(Userentiredata);
-      //  setuserID(Userentiredata.userCreated);
-      //  console.log("username: ", userName);
+      if (res.status === 201) {
+        const Userentiredata = await res.json();
+        setuserName(Userentiredata);
+        //  setuserID(Userentiredata.userCreated);
+        //  console.log("username: ", userName);
       }
-
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function makeAdmin(){
+  async function makeAdmin() {
     try {
       console.log("UserToken 76:", userToken);
-      const res = await fetch('/admin/makeadmin', {
-        method:"POST",
-        body: JSON.stringify({token: userToken}),
-        header:{
-          Accept:"application/json",
-          "Content-type":"application/json"
+      const res = await fetch("/admin/makeadmin", {
+        method: "POST",
+        body: JSON.stringify({ token: userToken }),
+        header: {
+          Accept: "application/json",
+          "Content-type": "application/json",
         },
-        credentials:"include",
+        credentials: "include",
       });
-      if(res.status !== 201){
+      if (res.status !== 201) {
         console.log(`Error in Admin request`, res.status);
-      }
-      else if(res.status === 201){
+      } else if (res.status === 201) {
         window.alert(res.msg);
       }
-
-      } catch (error) {
-      console.log("Error in Admin: ",error);
-      }
+    } catch (error) {
+      console.log("Error in Admin: ", error);
+    }
   }
 
-  async function fetchUserstasks(e){
-    const x = (e.target.value);
+  async function fetchUserstasks(e) {
+    const x = e.target.value;
     setuserToken(x);
     try {
       const url = "/admin/users-tasks/" + x;
@@ -146,15 +189,15 @@ function AdminDashboard() {
           Accept: "application/json",
           "Content-type": "application/json",
         },
-        credentials:"include",
+        credentials: "include",
       });
 
       if (tasks.status !== 201) {
         const error = new Error(tasks.error);
         throw error;
       }
-       const data = await tasks.json();
-       const Temp = data.filter((elem, ind) => {
+      const data = await tasks.json();
+      const Temp = data.filter((elem, ind) => {
         return elem.status === false;
       });
       setOngoingTasks(Temp);
@@ -163,13 +206,12 @@ function AdminDashboard() {
         return elem.status === true;
       });
       setCompletedTasks(Temp2);
-      
     } catch (error) {
-      console.log("error in fetchuser: ",error);
+      console.log("error in fetchuser: ", error);
     }
   }
 
-  async function DeleteCookie(){
+  async function DeleteCookie() {
     try {
       const response = await fetch("/logout", {
         method: "GET",
@@ -189,9 +231,9 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }
 
-  async function dataTransfer(key){
+  async function dataTransfer(key) {
     try {
       const res = await fetch("/admin/task-completed", {
         method: "POST",
@@ -209,9 +251,9 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  async function reverseTransfer(key){
+  async function reverseTransfer(key) {
     try {
       const res = await fetch("/admin/reverse-task", {
         method: "POST",
@@ -229,9 +271,9 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  async function deleteCompletedTasks(key){
+  async function deleteCompletedTasks(key) {
     try {
       const res = await fetch("/admin/admindeleteTask", {
         method: "POST",
@@ -249,9 +291,9 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  async function UpdateDataTitle(key, updatedTask){
+  async function UpdateDataTitle(key, updatedTask) {
     try {
       const res = await fetch("/admin/adminupdatetitle", {
         method: "POST",
@@ -269,9 +311,9 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  async function AddTasks(){
+  async function AddTasks() {
     const taskInput = {
       task: {
         title: Input,
@@ -297,17 +339,16 @@ function AdminDashboard() {
       if (AddTasksResp.status !== 201) {
         window.alert(`Status:` + AddTasksResp.status);
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error.message);
     }
-  };
+  }
 
-  const sendemail = async ()=>{
+  const sendemail = async () => {
     try {
       const res = await fetch("/admin/sendemail", {
-        method:"POST",
-        body: JSON.stringify({email:" ashay.tamrakar@gmail.com"}),
+        method: "POST",
+        body: JSON.stringify({ email: " ashay.tamrakar@gmail.com" }),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -317,17 +358,18 @@ function AdminDashboard() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
+    fetchrequests();
     callUsername();
     fetchUser();
     callAdminDashboard();
-  },[]);
-  
-useEffect(() => {
-  callalltasks();
-}, []);
+  }, []);
+
+  useEffect(() => {
+    callalltasks();
+  }, []);
 
   useEffect(() => {
     fetchUserstasks(Event);
@@ -343,49 +385,79 @@ useEffect(() => {
             </Link>
           </li>
           <li>
-            <Link Link to="/" className="Link" onClick={()=>{DeleteCookie()}}>
+            <Link
+              Link
+              to="/"
+              className="Link"
+              onClick={() => {
+                DeleteCookie();
+              }}
+            >
               Logout
             </Link>
           </li>
-          <li>
-            <select>           
-            {
-              Request.map((elem, key)=>{
-                return (<option key={key} className="optionTag">
-                <div>{elem}&#160;&#160;&#160;</div>
-                <div>
-                  <div>✔️&#160;&#160;</div>
-                  <div>❌</div>
-                </div>
-              </option>);
-              })
-            }
-            </select>
-          </li>
+          <li></li>
         </ul>
       </nav>
 
       <Outlet />
       <>
-        <h2>Hello { Name}</h2>
+        <h2>Hello {Name}</h2>
         <div className="container">
-            <div className="users">
-              <h2 className="TaskOngoingHeading">Users</h2>
-              <select className="listOfUsers"  onChange={(e)=>{
+          <div className="users">
+            <h2 className="TaskOngoingHeading">Users</h2>
+            <select
+              className="listOfUsers"
+              onChange={(e) => {
                 setEvent(e);
-                fetchUserstasks(e)}}>
-                <option>Select User</option>
-                {
-                  userName.map((date, key)=>{
-                    return (
-                    <option key={date.userCreated} value={date.token}
-                    > {date.username}</option>
-                    );
-                  })
-                }
-              </select>
-              <button className="admin-button" onClick={()=>{makeAdmin()}}>Make Admin</button>
+                fetchUserstasks(e);
+              }}
+            >
+              <option>Select User</option>
+              {userName.map((date, key) => {
+                return (
+                  <option key={date.userCreated} value={date.token}>
+                    {" "}
+                    {date.username}
+                  </option>
+                );
+              })}
+            </select>
+            <button
+              className="admin-button"
+              onClick={() => {
+                makeAdmin();
+              }}
+            >
+              Make Admin
+            </button>
+
+            <div className="request-panel">
+              {Request.map((eleme, key) => {
+                return (
+                  <div key={key} className="request-item">
+                    <div>{eleme.username}</div>
+                    <div>
+                      <button
+                        onClick={() => {
+                          createUser(eleme);
+                        }}
+                      >
+                        ✔️
+                      </button>
+                      <button
+                        onClick={() => {
+                          deleteUser(eleme);
+                        }}
+                      >
+                        ❌
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </div>
           <div className="task-container">
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
@@ -406,9 +478,10 @@ useEffect(() => {
                         className="WrittenContent"
                         spellCheck={false}
                         contentEditable={true}
-                        onBlur={(e)=>{
-                          UpdateDataTitle(name._id, e.target.innerText)
-                          console.log(e.target.innerText)}}
+                        onBlur={(e) => {
+                          UpdateDataTitle(name._id, e.target.innerText);
+                          console.log(e.target.innerText);
+                        }}
                       >
                         {name.task.title}
                       </div>
@@ -425,10 +498,21 @@ useEffect(() => {
                     setInput(e.target.value);
                   }}
                 />
-                <button className="AddTaskButton" onClick={()=>{AddTasks()}}>
+                <button
+                  className="AddTaskButton"
+                  onClick={() => {
+                    AddTasks();
+                  }}
+                >
                   Add Task +{" "}
                 </button>
-                <button onClick={()=>{sendemail()}}>Send Email</button>
+                <button
+                  onClick={() => {
+                    sendemail();
+                  }}
+                >
+                  Send Email
+                </button>
               </div>
             </div>
 
@@ -472,7 +556,6 @@ useEffect(() => {
                 } */}
               </ul>
             </div>
-
           </div>
         </div>
       </>

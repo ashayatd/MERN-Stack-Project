@@ -253,22 +253,7 @@ function Dash() {
             <Link Link to="/" className="Link" onClick={DeleteCookie}>
               Logout
             </Link>
-          </li>
-          
-            <select>
-            {
-              Request.map((elem, key)=>{
-                return (
-                  <option key={key} className="optionTag">
-                    <div>{elem}&#160;&#160;&#160;</div>
-                    <div>
-                      <div>✔️&#160;&#160;</div>
-                      <div>❌</div>
-                    </div>
-                  </option>);
-              })
-            } 
-            </select>        
+          </li>        
           
         </ul>
       </nav>
