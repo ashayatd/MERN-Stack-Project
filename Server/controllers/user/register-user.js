@@ -1,4 +1,5 @@
 const user = require("../../models/userModel");
+const pendinguser = require("../../models/pendinguserModel");
 const bcrypt = require("bcryptjs");
 
 async function register(req, res) {
@@ -11,7 +12,7 @@ async function register(req, res) {
       return res.send(JSON.stringify({ message: "all input required" }));
     }
 
-    const oldUser = await user.findOne({ username });
+    const oldUser = await user.findOne({ username }); // one more thinsg
     if (oldUser) {
       return (
         res.status(409),
@@ -27,18 +28,36 @@ async function register(req, res) {
 
     const hashedPassword = bcrypt.hashSync(password, salt); // created hashed Password
 
-    
+    if(role==="admin"){
+      const createPendingUser = await pendinguser.create({
+        email,
+        username,
+        password: hashedPassword,
+        role: role
+      });
+      if(createPendingUser){
+        console.log("Created the Data");
+        res.status(201).json({msg:"Your Request Generate"});
+      }
 
-    const Createuser = await user.create({
-      email,
-      username,
-      password: hashedPassword,
-      role: role
-    });
+    }
 
-    console.log("Created the Data");
+    else{
+      const Createuser = await user.create({
+        email,
+        username,
+        password: hashedPassword,
+        role: role
+      });
+      if(Createuser){
+        console.log("Created the Data");
+        return res.status(202).json({msg:"Your Request Generate"});
+      }
+      else{
+        return res.status(200);
+      }
+    }
 
-    return res.status(201).json(Createuser);
   } catch (err) {
     console.log("Error in Register route:", err.message);
     return res.status(200);

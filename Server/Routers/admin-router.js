@@ -10,9 +10,11 @@ const admindeleteTask = require("../controllers/admin/admindeleteTask");
 const adminauth = require("../../Server/middleware/admin_authenticate");
 const makeadmin = require("../controllers/admin/makeadmin");
 const authenticate = require("../controllers/admin/authenticate");
-// const username = require("../controllers/admin/adminusername");
+const username = require("../controllers/admin/adminusername");
 const callalltasks = require("../controllers/admin/callalltasks");
 const sendemail = require("../controllers/admin/adminsendemail");
+const fetchrequests = require("../controllers/admin/fetchrequests");
+const admincreateuser = require("../controllers/admin/admincreateuser");
 
 Route.get('/users', adminauth , users);
 Route.get('/users-tasks/:userId', adminauth , task);
@@ -23,8 +25,10 @@ Route.post('/adminaddtask', adminauth , adminaddtask);
 Route.post('/admindeleteTask', adminauth ,  admindeleteTask);
 Route.post('/makeadmin', adminauth , makeadmin);
 Route.post('/authenticate', authenticate);
-// Route.post('/username', username );
+Route.get('/username', username );
 Route.get('/callalltasks',adminauth, callalltasks);
 Route.post('/sendemail', sendemail);
+Route.get('/fetchrequests', fetchrequests);
+Route.post('/admincreateuser', admincreateuser);
 
 module.exports = Route;

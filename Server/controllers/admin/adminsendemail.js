@@ -9,7 +9,7 @@ const sendEmail= ()=>{
         to: 'ashay.tamrakar@gmail.com', // Change to your recipient
         from: 'vigifo8663@mirtox.com', // Change to your verified sender
         subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
+        text: 'Some Task Has been added to your Dashboard, Please have a look on them.',
         html: '<strong>and easy to do anywhere, even with Node.js</strong>',
         }
         sgMail
