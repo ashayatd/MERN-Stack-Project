@@ -1,94 +1,124 @@
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 86vh;
-  }
+.main_background{
+  background-image:url("https://productsinsights.com/wp-content/uploads/2023/02/background.png");
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+}
 
-  #navbar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    font-size: 1.2rem;
-    margin-top: 1.2rem; 
-    }
-  
-  .login-form {
-    background-color: #f7f7f7;
-    padding-top: 3rem;
-    padding-right: 5rem;
-    padding-bottom: 5rem;
-    padding-left: 5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  }
-  
-  .form-title {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-  }
-  
-  .form-group input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    width: 17rem;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  button:hover {
-    background-color: #3e8e41;
-  }
-  
+.main-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 8rem;
+}
 
-  /* navbar */
+.login-container{
+  display: flex;
+  justify-content: center;
+  width: 45%;
+  background-color: white;
+  border-radius: 28px;
+  padding: 40px;
+}
 
- #navbar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background-color: lightgray;
-  }
-  
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-  }
-  
-  li {
-    float: left;
-  }
-  
-  .Link {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 18px 20px;
-    text-decoration: none;
-  }
-  
+.login-form{
+  padding:40px;
+}
+
+.side-image{
+  width: 40%;
+  height: auto;
+  padding: 40px;
+}
+.form-title{
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 28px;
+  color: #424141;
+}
+.label{
+  font-size: 18px;
+  font-weight: 100;
+  color: #424141;
+}
+#username,#password{
+  padding: 0.5rem;
+  border-top-color: rgb(204, 204, 204);
+  border-top-style: solid;
+  border-top-width: 0px;
+  border-right-color: rgb(204, 204, 204);
+  border-right-style: solid;
+  border-right-width: 0px;
+  border-bottom-color: rgb(132, 130, 130);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: rgb(132, 130, 130);
+  border-left-style: solid;
+  border-left-width: 0px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-radius: 0px;
+  width: 17rem;
+}
+.button-div{
+  display: flex;
+  justify-content: center;
+}
+.button{
+  width: 54%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 28px;
+  background-color:transparent ;
+  color: #424141;
+  transition-duration: 500ms;
+}
+.button:hover{
+  width: 54%;
+  border: 0px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 28px;
+  background-color:#3978D3 ;
+  color: white;
+  transform: translate(0px, -5px);
+  transition-duration: 500ms;
+}
+.navbarBackground{
+  height: 60px;
+  border: 0.5px solid rgba(255, 255, 255, 0.35);
+}
+.navbarBackground2{
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.35);
+  filter: blur(2px);
+}
+#navbar{
+  transform: translate(0px,-60px);
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 40px;
+  flex-direction:row;
+  font-size: large;
+}
+ul{
+list-style-type: none;
+}
+
+.Link{
+  margin-left: 40px;
+  text-decoration: none;
+  list-style-type: none;
+  color: white;
+  text-shadow: 1px 1px 1px #0b0b0b7b;
+}
+
+
+
+/* 3978D3 */
