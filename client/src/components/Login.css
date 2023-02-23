@@ -43,7 +43,13 @@
   font-weight: 100;
   color: #424141;
 }
-#username,#password{
+.form-group{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+#username, #password{
   padding: 0.5rem;
   border-top-color: rgb(204, 204, 204);
   border-top-style: solid;
@@ -106,6 +112,7 @@
   margin-right: 40px;
   flex-direction:row;
   font-size: large;
+
 }
 ul{
 list-style-type: none;
