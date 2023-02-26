@@ -1,5 +1,10 @@
-# MERN-Project
+# FlowPro Task Tracker
+Introducing our newest product - a revolutionary task management system that will make your daily life easier than ever before!
 
+With our user-friendly interface, you can easily log in or register to access your personalized dashboard. Keep track of your daily tasks and mark them as completed as you go along. And if you need to make any changes, our Create, Update, and Delete task features make it a breeze.
+
+
+# Execution
 To start the React frontend, navigate to the frontend directory in the terminal and run the command `npm install` to install all the required packages. After the installation is complete, run the command npm start to start the frontend server on the default port 3000.
 
 To start the NodeJS backend, navigate to the backend directory in the terminal and run the command `npm install` to install all the required packages. After the installation is complete, run the command npm start to start the backend server on the default port 5000.
@@ -11,7 +16,7 @@ Replace <your-mongodb-uri> with your own MongoDB credentials by creating a .env 
 
 Note: It is not recommended to upload your credentials to a public repository, as this could compromise the security of your database. Instead, use a .env file and add it to your .gitignore file to keep it private.
   
-# Features:- 
+# Features
   
 Provide clear instructions on how to use the task management system, including how to create, update, and delete tasks, mark them as completed, and access the personalized dashboard.
 Include error messages and validations to help users avoid mistakes and correct any errors they make.
