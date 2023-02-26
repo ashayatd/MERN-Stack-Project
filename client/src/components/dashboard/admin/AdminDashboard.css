@@ -1,0 +1,368 @@
+.reg-main_background{
+  background:url("https://productsinsights.com/wp-content/uploads/2023/02/Untitled-design-21.png");
+  background-size: cover;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: 60rem;
+  background-repeat: no-repeat;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+#admin-navbar{
+  transform: translate(0px,-60px);
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 40px;
+  flex-direction:row;
+  font-size: large;
+}
+.admin-navbarBackground{
+  height: 60px;
+  border: 0.5px solid rgba(255, 255, 255, 0.35);
+}
+
+.admin-navbarBackground2{
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.35);
+  filter: blur(2px);
+}
+#admin-reg-navbar{
+  transform: translate(0px,-110px);
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 40px;
+  flex-direction:row;
+  font-size: large;
+}
+ul{
+list-style-type: none;
+}
+.reg-Link{
+  margin-left: 40px;
+  text-decoration: none;
+  list-style-type: none;
+  color: white;
+  text-shadow: 1px 1px 1px #0b0b0b7b;
+}
+.displayName{
+  font-size: 33px;
+  padding-top: 1px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: white;
+  text-shadow: 1px 1px 3px black;
+  text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 450px;}
+
+  .sidebar {
+    width: 20%;
+    background-color: lightgray;
+    padding: 20px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+  .TaskOngoingHeading{
+   font-size: 30px;
+   font-weight: 600;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   color: #424141;
+  }
+
+  .reg-select-tag{
+    width: 12rem;
+    border-top-color: white;
+    border-top-style: solid;
+    border-top-width: 0px;
+    border-right-color: rgb(204, 204, 204);
+    border-right-style: solid;
+    border-right-width: 0px;
+    border-bottom-color: rgb(132, 130, 130);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: white;
+    border-left-style: solid;
+    border-left-width: 0px;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-radius: 0px;
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    background-color: white;
+    font-size: 16px;
+    color: #424141;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  .options{
+    background-color: #3979d364;
+  }
+  .admin-button{
+    cursor: pointer;
+    font-size: 17px;
+    width: 54%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 40px;
+    background-color: #3978D3 ;
+    color: #ffffff;
+    transition-duration: 500ms;
+    
+  }
+  .admin-button:hover{
+    margin-top: 40px;
+    width: 54%;
+    border: 0px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    background-color:#362EC2 ;
+    color: white;
+    transition-duration: 500ms;
+  }
+  
+  
+  .task-container {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 50px;
+  }
+  
+  .ongoing-tasks{
+    width: 45%;
+    background-color: white;
+    margin-right: 65px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.429);
+  }
+  .completed-tasks {
+    width: 45%;
+    background-color: white;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-right: 65px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.429);
+  }
+  .UsersData{
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .List{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 50px;
+  }
+  .ListDivision{
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+  }
+  .TaskCompleted{
+    text-decoration: line-through;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+  }
+  .request-panel{
+    width: 45%;
+  }
+  .cross:hover{
+    text-shadow: 1px 1px 3px red;
+  }
+  .blue-tick:hover{
+    text-shadow: 1px 1px 3px blue;
+  }
+  .InputAdd{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .TaskOngoing{
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .TaskInput{
+    width: 35%;
+    background-color: transparent;
+    cursor: text;
+    height:  26px;
+    margin-top: 40px;
+    border-top-color: white;
+    border-top-style: solid;
+    border-top-width: 0px;
+    border-right-color: rgb(204, 204, 204);
+    border-right-style: solid;
+    border-right-width: 0px;
+    border-bottom-color: rgb(132, 130, 130);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: white;
+    border-left-style: solid;
+    border-left-width: 0px;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-radius: 0px;
+
+  }
+  .AddTaskButton{
+    cursor: pointer;
+    font-size: 17px;
+    width: 30%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #3978D3 ;
+    color: #ffffff;
+    transition-duration: 500ms;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+  }
+  .AddTaskButton:hover{
+    width: 30%;
+    border: 0px solid white;
+    border-radius: 10px;
+    background-color:#362EC2 ;
+    color: white;
+    transition-duration: 500ms;
+  }
+
+  .ButtonDiv{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    padding-right: 63px;
+  }
+  .Button1{
+    width: 13%;
+    background-color: red;
+  }
+  .Button{
+    width: 13%;
+  }
+  .WrittenContent{
+    font-size: 20px;
+  }
+  .WrittenContent:hover{
+    cursor: text;
+    text-decoration: underline;
+    transition-duration: 500ms;
+  }
+  .pen{
+    cursor: pointer;
+  }  
+  
+  .users{
+    width: 24%;
+    background-color: white;
+    margin-right: 65px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-left: 20x;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.429);
+  }
+  .userslist{
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .logo{
+    width: 13%;
+    transform: translate(0,-50px);
+  }
+  .request-panel {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    max-width: 400px;
+    margin-top: 50px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+  }
+  
+  .request-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+  }
+  
+  .request-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .request-item p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .request-item button {
+    background-color: #e2f2b6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  .checkbox:hover{
+    text-shadow: 1px 1px 3px rgb(2, 0, 128);
+  }
+  

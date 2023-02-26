@@ -1,5 +1,5 @@
 const user = require("../../models/userModel");
-
+const pendinguserModel = require("../../models/pendinguserModel");
 
 const admincreateuser = async (req, res)=>{
 try {
@@ -14,6 +14,8 @@ try {
       });
 
     if(Createuser){
+        const deleteuser = await pendinguserModel.deleteOne({username: username});
+        if(deleteuser){console.log("user deleted..")}
         res.status(201).JSON.stringify({msg:"You are now admin"});
     }
 } catch (error) {

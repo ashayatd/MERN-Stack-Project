@@ -47,7 +47,7 @@ const Login = () => {
       <div className="navbarBackground">
         <div className="navbarBackground2"></div>
       </div>
-      <div>
+      <div >
         <nav>
           <ul id="navbar">
             <li>
@@ -100,8 +100,6 @@ const Login = () => {
                   
                 </form>
               <img src="https://productsinsights.com/wp-content/uploads/2023/02/Untitled-design-20.png" className="side-image"/>
-              
-                
           </div>
         </div>
       </div>

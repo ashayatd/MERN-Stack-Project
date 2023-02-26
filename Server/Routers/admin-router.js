@@ -15,6 +15,7 @@ const callalltasks = require("../controllers/admin/callalltasks");
 const sendemail = require("../controllers/admin/adminsendemail");
 const fetchrequests = require("../controllers/admin/fetchrequests");
 const admincreateuser = require("../controllers/admin/admincreateuser");
+const admindeleteuser = require("../controllers/admin/admindeletependinguser");
 
 Route.get('/users', adminauth , users);
 Route.get('/users-tasks/:userId', adminauth , task);
@@ -30,5 +31,6 @@ Route.get('/callalltasks',adminauth, callalltasks);
 Route.post('/sendemail', sendemail);
 Route.get('/fetchrequests', fetchrequests);
 Route.post('/admincreateuser', admincreateuser);
+Route.post('/admindeleteuser', admindeleteuser);
 
 module.exports = Route;

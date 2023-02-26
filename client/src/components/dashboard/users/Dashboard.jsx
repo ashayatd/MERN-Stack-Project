@@ -9,15 +9,15 @@ function Dash() {
   const [CompletedTasks, setCompletedTasks] = useState([]);
   const [Input, setInput] = useState("");
   const [Name, setName] = useState("Sample Name");
-  const [Request, setRequest] = useState(["name 1","name 2","name 3" ]);
-
+  const [Request, setRequest] = useState(["name 1", "name 2", "name 3"]);
+  const [Sample, setSample] = useState("");
 
   const navigate = useNavigate();
 
   const callUsername = async () => {
     try {
       console.log("Username function Called");
-      
+
       const res = await fetch("api/username", {
         method: "GET",
         headers: {
@@ -27,11 +27,10 @@ function Dash() {
         credentials: "include",
       });
       const UsersName = await res.json();
-      
+
       if (res.status === 201) {
         setName(UsersName.UserName);
       }
-
     } catch (error) {
       console.log("Error in: " + error.stack);
     }
@@ -138,6 +137,22 @@ function Dash() {
       console.log(error);
     }
   };
+  const datatransferFE = async (key) => {
+    try {
+      console.log(OngoingTasks);
+      const tempdata = OngoingTasks.filter((elem, id) => {
+        return id !== key;
+      });
+      const tempdata2 = OngoingTasks.filter((elem, id) => {
+        return id === key;
+      });
+      console.log("tem2 data: ", tempdata2);
+      setOngoingTasks(tempdata);
+      setCompletedTasks([...CompletedTasks, tempdata2[0]]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const reverseTransfer = async (key) => {
     try {
@@ -158,6 +173,22 @@ function Dash() {
       console.log(error);
     }
   };
+  const reverseTransferFE = async (key) => {
+    try {
+      console.log(CompletedTasks);
+      const tempdata = CompletedTasks.filter((elem, id) => {
+        return id !== key;
+      });
+      const tempdata2 = CompletedTasks.filter((elem, id) => {
+        return id === key;
+      });
+      console.log("tem2 data: ", tempdata2);
+      setCompletedTasks(tempdata);
+      setOngoingTasks([...OngoingTasks, tempdata2[0]]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const deleteCompletedTasks = async (key) => {
     try {
@@ -174,6 +205,17 @@ function Dash() {
       if (res.status !== 201) {
         window.alert(`status:`, res.status);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteCompletedTasksFE = async (key) => {
+    try {
+      const temp10 = CompletedTasks.filter((elem, id) => {
+        return key != id;
+      });
+      setCompletedTasks(temp10);
     } catch (error) {
       console.log(error);
     }
@@ -232,18 +274,24 @@ function Dash() {
   };
 
   useEffect(() => {
-    calldashboardpage();
     fetchTasks();
-  }, [OngoingTasks, CompletedTasks]);
+  }, [Sample]);
 
   useEffect(() => {
-     callUsername();
+    calldashboardpage();
+  }, []);
+
+  useEffect(() => {
+    callUsername();
   }, []);
 
   return (
-    <div>
-      <nav id="navbar">
-        <ul>
+    <div className="dashboard-main_background">
+      <div className="navbarBackground">
+        <div className="navbarBackground2"></div>
+      </div>{" "}
+      <nav>
+        <ul id="navbar">
           <li>
             <Link Link to="/about" className="Link">
               About
@@ -253,16 +301,13 @@ function Dash() {
             <Link Link to="/" className="Link" onClick={DeleteCookie}>
               Logout
             </Link>
-          </li>        
-          
+          </li>
         </ul>
       </nav>
-
       <Outlet />
-      <>
-        <h2>Hello {Name} </h2>
-
-        <div className="container">
+      <h2 className="dash-displayName">Hello, {Name} </h2>
+      <div className="dash-main-div">
+        <div className="dash-container">
           <div className="task-container">
             <div className="ongoing-tasks">
               <h2 className="TaskOngoingHeading">Ongoing Tasks</h2>
@@ -270,11 +315,12 @@ function Dash() {
               <ul className="List">
                 {OngoingTasks.map((name, key) => {
                   return (
-                    <li className="TaskOngoing" key={name._id}>
+                    <li className="dash-TaskOngoing" key={key}>
                       <div
                         className="checkbox"
                         onClick={() => {
                           dataTransfer(name._id);
+                          datatransferFE(key);
                         }}
                       >
                         ☐&#160;&#160;&#160;&#160;&#160;
@@ -283,9 +329,10 @@ function Dash() {
                         className="WrittenContent"
                         spellCheck={false}
                         contentEditable={true}
-                        onBlur={(e)=>{
-                          UpdateDataTitle(name._id, e.target.innerText)
-                          console.log(e.target.innerText)}}
+                        onBlur={(e) => {
+                          UpdateDataTitle(name._id, e.target.innerText);
+                          console.log(e.target.innerText);
+                        }}
                       >
                         {name.task.title}
                       </div>
@@ -302,34 +349,41 @@ function Dash() {
                     setInput(e.target.value);
                   }}
                 />
-                <button className="AddTaskButton" onClick={AddTasks}>
+                <button
+                  className="dash-AddTaskButton"
+                  onClick={() => {
+                    AddTasks();
+                  }}
+                >
                   Add Task +{" "}
                 </button>
               </div>
             </div>
 
             <div className="completed-tasks">
-              <h2 className="TaskCompletedHeading">Completed Tasks</h2>
+              <h2 className="TaskOngoingHeading">Completed Tasks</h2>
 
               <ul className="List">
                 {CompletedTasks.map((name, key) => {
                   return (
-                    <div
-                      className="ListDivision"
-                      key={name._id}
-                      onClick={() => {
-                        reverseTransfer(name._id);
-                      }}
-                    >
+                    <div className="ListDivision" key={key}>
                       <div className="TickMark">
                         <span
                           onClick={() => {
                             deleteCompletedTasks(name._id);
+                            deleteCompletedTasksFE(key);
                           }}
                         >
-                          ❌
+                          ❌&#160;&#160;&#160;&#160;&#160;&#160;
                         </span>
-                        &#160;&#160;&#160;&#160;&#160;&#160;☑️
+                        <span
+                          onClick={() => {
+                            reverseTransfer(name._id);
+                            reverseTransferFE(key);
+                          }}
+                        >
+                          ✅
+                        </span>
                       </div>{" "}
                       <li className="TaskCompleted">{name.task.title}</li>
                     </div>
@@ -339,7 +393,7 @@ function Dash() {
             </div>
           </div>
         </div>
-      </>
+      </div>
     </div>
   );
 }

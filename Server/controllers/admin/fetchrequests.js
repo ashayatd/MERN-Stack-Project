@@ -4,7 +4,6 @@ const fetchrequests = async (req, res)=>{
     try {
       const data  = await pendinguserModel.find();
       if(data){
-        console.log(data);
         return res.status(201).json(data);
       }
       else{

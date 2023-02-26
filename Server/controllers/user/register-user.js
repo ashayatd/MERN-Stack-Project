@@ -1,4 +1,5 @@
 const user = require("../../models/userModel");
+const pendingmodel = require("../../models/pendinguserModel"); 
 const pendinguser = require("../../models/pendinguserModel");
 const bcrypt = require("bcryptjs");
 
@@ -12,13 +13,24 @@ async function register(req, res) {
       return res.send(JSON.stringify({ message: "all input required" }));
     }
 
-    const oldUser = await user.findOne({ username }); // one more thinsg
+    const oldUser = await user.findOne({ username }); 
+    const pendingUser = await pendingmodel.findOne({username}); 
     if (oldUser) {
       return (
         res.status(409),
         res.send(
           JSON.stringify({
             message: "Already Register username please login",
+          })
+        )
+      );
+    }
+    if(pendingUser){
+      return (
+        res.status(410),
+        res.send(
+          JSON.stringify({
+            message: "Already Registered, please wait till authentication",
           })
         )
       );

@@ -9,7 +9,7 @@ const completeTask = async (req, res) => {
         if(error) throw Error;
     });
     if(update){
-        console.log("data Transfered");
+        console.log("data Transfered", ide);
     }
     return res.status(201);
   } catch (error) {
